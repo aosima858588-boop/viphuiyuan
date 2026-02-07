@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>海豚社区助手 | Dolphin Community</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 海洋主题配色 */
+            --primary: #4A6FA5; /* 深蓝色 */
+            --primary-light: #6B8CC6; /* 浅蓝色 */
+            --primary-lightest: #E8F0FE; /* 最浅蓝 */
+            --secondary: #2EBFA5; /* 海豚绿/青色 */
+            --secondary-light: #5CD0B9; /* 浅海豚绿 */
+            --accent: #FF7E5F; /* 珊瑚橙 */
+            --accent-light: #FF9D86; /* 浅珊瑚橙 */
+            --background: #F8FAFF; /* 浅蓝白背景 */
+            --surface: #FFFFFF; /* 白色卡片 */
+            --surface-light: #F5F9FF; /* 浅灰蓝 */
+            --text-primary: #1A2C4D; /* 深蓝文字 */
+            --text-secondary: #5A6C8D; /* 中灰蓝文字 */
+            --text-muted: #8A9BBA; /* 浅灰蓝文字 */
+            --border: #E1E8F5; /* 浅蓝边框 */
+            --shadow: 0 10px 30px rgba(74, 111, 165, 0.08); /* 柔和阴影 */
+            --shadow-lg: 0 20px 50px rgba(74, 111, 165, 0.12); /* 大阴影 */
+            --radius-lg: 24px; /* 大圆角 */
+            --radius-md: 16px; /* 中圆角 */
+            --radius-sm: 10px; /* 小圆角 */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡 */
+            --gradient-primary: linear-gradient(135deg, #4A6FA5 0%, #6B8CC6 100%); /* 蓝色渐变 */
+            --gradient-secondary: linear-gradient(135deg, #2EBFA5 0%, #5CD0B9 100%); /* 绿色渐变 */
+            --gradient-accent: linear-gradient(135deg, #FF7E5F 0%, #FF9D86 100%); /* 橙色渐变 */
+            --gradient-ocean: linear-gradient(135deg, #4A6FA5 0%, #2EBFA5 100%); /* 海洋渐变 */
+            --gradient-sky: linear-gradient(135deg, #E8F0FE 0%, #FFFFFF 100%); /* 天空渐变 */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-weight: 400;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-bottom: 90px;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%234a6fa5' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(74, 111, 165, 0.05);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        
+        /* 容器布局 */
+        .container {
+            max-width: 100%;
+            padding: 0 20px;
+            margin: 0 auto;
+        }
+        
+        /* 顶部导航栏 */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            margin-bottom: 8px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-ocean);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 5px 15px rgba(74, 111, 165, 0.2);
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-subtitle {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        
+        .wallet-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+        
+        .wallet-status:hover {
+            box-shadow: 0 10px 25px rgba(74, 111, 165, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .wallet-status .dot {
+            width: 10px;
+            height: 10px;
+            background: var(--secondary);
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .wallet-status .dot::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--secondary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.1; }
+        }
+        
+        /* 页面内容 */
+        .page {
+            display: none;
+            padding: 0 0 24px;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 卡片组件 */
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-ocean);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title i {
+            color: var(--primary);
+            font-size: 22px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-lightest);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        
+        /* 按钮组件 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 28px;
+            border-radius: var(--radius-md);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% { transform: scale(0, 0); opacity: 0.5; }
+            100% { transform: scale(20, 20); opacity: 0; }
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(74, 111, 165, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(74, 111, 165, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--primary);
+            border: 1px solid var(--primary-light);
+            box-shadow: 0 5px 15px rgba(74, 111, 165, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-lightest);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(74, 111, 165, 0.15);
+        }
+        
+        .btn-accent {
+            background: var(--gradient-accent);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 126, 95, 0.2);
+        }
+        
+        .btn-accent:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 126, 95, 0.3);
+        }
+        
+        .btn-sm {
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: var(--radius-sm);
+        }
+        
+        .btn-icon {
+            width: 52px;
+            height: 52px;
+            padding: 0;
+            border-radius: var(--radius-md);
+            background: var(--surface);
+            color: var(--primary);
+            border: 1px solid var(--border);
+            box-shadow: 0 5px 15px rgba(74, 111, 165, 0.1);
+        }
+        
+        .btn-icon:hover {
+            background: var(--primary-lightest);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(74, 111, 165, 0.15);
+        }
+        
+        /* 网格系统 */
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin-top: 24px;
+        }
+        
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        
+        /* 统计卡片 */
+        .stat-card {
+            background: var(--gradient-sky);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-ocean);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .stat-change {
+            font-size: 12px;
+            margin-top: 8px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .stat-change.positive {
+            background: rgba(46, 191, 165, 0.1);
+            color: var(--secondary);
+        }
+        
+        .stat-change.negative {
+            background: rgba(255, 126, 95, 0.1);
+            color: var(--accent);
+        }
+        
+        /* 功能卡片 */
+        .feature-card {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-ocean);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 30px;
+            background: var(--primary-lightest);
+            color: var(--primary);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 16px 0;
+            z-index: 1000;
+            box-shadow: 0 -5px 30px rgba(74, 111, 165, 0.1);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            position: relative;
+            flex: 1;
+            max-width: 80px;
+        }
+        
+        .nav-item i {
+            font-size: 24px;
+            margin-bottom: 6px;
+            transition: var(--transition);
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-item.active i {
+            transform: translateY(-5px);
+        }
+        
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            width: 5px;
+            height: 5px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+        
+        .nav-item:hover {
+            color: var(--primary);
+            background: var(--primary-lightest);
+        }
+        
+        /* 签到日历 */
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            background: var(--surface-light);
+            font-size: 16px;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid var(--border);
+        }
+        
+        .calendar-day.signed {
+            background: var(--gradient-secondary);
+            color: white;
+            border-color: var(--secondary);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(46, 191, 165, 0.2);
+        }
+        
+        .calendar-day.today {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: var(--surface);
+        }
+        
+        .calendar-day.signed.today {
+            border-color: white;
+        }
+        
+        .calendar-day-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        .calendar-day.signed .calendar-day-label {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* 抽奖奖品 */
+        .prize-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 24px;
+        }
+        
+        .prize-item {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .prize-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+        }
+        
+        .prize-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .prize-item.won::after {
+            content: "已获得";
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 35px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(46, 191, 165, 0.3);
+        }
+        
+        .prize-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+        
+        .prize-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        .prize-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        
+        .prize-probability {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 4px 12px;
+            background: var(--surface-light);
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        /* 表单元素 */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(74, 111, 165, 0.05);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(74, 111, 165, 0.15);
+        }
+        
+        /* 结果展示 */
+        .result-card {
+            background: var(--gradient-sky);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-top: 28px;
+            text-align: center;
+            border: 1px solid var(--border);
+            animation: fadeIn 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-secondary);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        
+        .result-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--gradient-ocean);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 16px 0;
+            line-height: 1;
+        }
+        
+        /* 交易记录 */
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 24px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+        
+        .transaction-item:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-3px);
+        }
+        
+        .transaction-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .transaction-icon.receive {
+            background: rgba(46, 191, 165, 0.1);
+            color: var(--secondary);
+        }
+        
+        .transaction-icon.send {
+            background: rgba(255, 126, 95, 0.1);
+            color: var(--accent);
+        }
+        
+        .transaction-icon.swap {
+            background: rgba(74, 111, 165, 0.1);
+            color: var(--primary);
+        }
+        
+        .transaction-details {
+            flex: 1;
+        }
+        
+        .transaction-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        
+        .transaction-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .transaction-amount {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: right;
+        }
+        
+        .transaction-amount.receive {
+            color: var(--secondary);
+        }
+        
+        .transaction-amount.send {
+            color: var(--accent);
+        }
+        
+        /* AI助手 */
+        .ai-response {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-top: 24px;
+            min-height: 200px;
+            line-height: 1.6;
+            font-size: 15px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        
+        .ai-response p {
+            margin-bottom: 16px;
+        }
+        
+        .ai-response p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* 资源卡片 */
+        .resource-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-ocean);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .resource-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        
+        .resource-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* 徽章 */
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 20px;
+            line-height: 1;
+        }
+        
+        .badge-primary {
+            background: rgba(74, 111, 165, 0.1);
+            color: var(--primary);
+        }
+        
+        .badge-success {
+            background: rgba(46, 191, 165, 0.1);
+            color: var(--secondary);
+        }
+        
+        /* 进度条 */
+        .progress-bar {
+            height: 10px;
+            background: var(--surface-light);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 12px 0;
+            border: 1px solid var(--border);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1s ease-out;
+        }
+        
+        .progress-fill.primary {
+            background: var(--gradient-primary);
+        }
+        
+        .progress-fill.success {
+            background: var(--gradient-secondary);
+        }
+        
+        .progress-fill.accent {
+            background: var(--gradient-accent);
+        }
+        
+        /* Toast消息 */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .toast {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            box-shadow: var(--shadow-lg);
+            border-left: 5px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 320px;
+            max-width: 380px;
+            animation: slideInRight 0.3s ease-out, fadeOut 0.3s ease-out 2.7s forwards;
+        }
+        
+        .toast.success {
+            border-left-color: var(--secondary);
+        }
+        
+        .toast.error {
+            border-left-color: var(--accent);
+        }
+        
+        .toast.warning {
+            border-left-color: #FFC107;
+        }
+        
+        .toast-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        
+        .toast.success .toast-icon {
+            color: var(--secondary);
+        }
+        
+        .toast.error .toast-icon {
+            color: var(--accent);
+        }
+        
+        .toast.warning .toast-icon {
+            color: #FFC107;
+        }
+        
+        .toast-content {
+            flex: 1;
+        }
+        
+        .toast-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+        
+        .toast-message {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        /* 海豚装饰元素 */
+        .dolphin-decoration {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.03;
+        }
+        
+        .dolphin-1 {
+            top: 10%;
+            left: 5%;
+            font-size: 120px;
+            color: var(--primary);
+        }
+        
+        .dolphin-2 {
+            bottom: 20%;
+            right: 5%;
+            font-size: 100px;
+            color: var(--secondary);
+            transform: scaleX(-1);
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(74, 111, 165, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-state i {
+            font-size: 60px;
+            color: var(--primary-light);
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-state p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .card {
+                padding: 24px;
+            }
+            
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .prize-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar {
+                gap: 8px;
+            }
+            
+            .calendar-day {
+                font-size: 14px;
+            }
+            
+            .result-value {
+                font-size: 36px;
+            }
+            
+            .header-content {
+                padding: 0 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 12px 0;
+            }
+            
+            .wallet-status {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+            
+            .logo-title {
+                font-size: 18px;
+            }
+            
+            .logo-subtitle {
+                font-size: 10px;
+            }
+            
+            .bottom-nav {
+                padding: 14px 0;
+            }
+            
+            .nav-item {
+                font-size: 10px;
+                padding: 8px 10px;
+            }
+            
+            .nav-item i {
+                font-size: 22px;
+            }
+            
+            .card-title {
+                font-size: 18px;
+            }
+            
+            .card-title i {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 海豚装饰元素 -->
+    <div class="dolphin-decoration dolphin-1">
+        <i class="fas fa-fish"></i>
+    </div>
+    <div class="dolphin-decoration dolphin-2">
+        <i class="fas fa-fish"></i>
+    </div>
+    
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo" onclick="switchPage('home'); return false;">
+                <div class="logo-icon">
+                    <i class="fas fa-fish"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">海豚社区助手</div>
+                    <div class="logo-subtitle">Dolphin Community</div>
+                </div>
+            </a>
+            
+            <div class="wallet-status">
+                <span class="dot"></span>
+                <span id="walletAddress">0x7a3...f8c2</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- 首页 -->
+        <div id="home-page" class="page active">
+            <!-- 欢迎卡片 -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-water"></i> 欢迎来到海豚社区</h2>
+                <p class="card-subtitle">一站式Web3社区辅助工具，助您在区块链海洋中畅游</p>
+                
+                <div class="grid grid-4">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalSignins">7</div>
+                        <div class="stat-label">累计签到</div>
+                        <div class="stat-change positive">+2 今天</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalBalance">150</div>
+                        <div class="stat-label">积分余额</div>
+                        <div class="stat-change positive">+50 今日</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalPrizes">2</div>
+                        <div class="stat-label">获得奖励</div>
+                        <div class="stat-change positive">+1 本周</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value" id="activeDays">12</div>
+                        <div class="stat-label">活跃天数</div>
+                        <div class="stat-change positive">连续 3 天</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 快速功能 -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-bolt"></i> 快速功能</h2>
+                    <span class="badge badge-primary">4个功能</span>
+                </div>
+                
+                <div class="grid grid-4">
+                    <div class="feature-card" onclick="switchPage('signin')">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h3 class="feature-title">每日签到</h3>
+                        <p class="feature-desc">领取每日积分奖励</p>
+                    </div>
+                    
+                    <div class="feature-card" onclick="switchPage('lottery')">
+                        <div class="feature-icon">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h3 class="feature-title">幸运抽奖</h3>
+                        <p class="feature-desc">用积分赢取大奖</p>
+                    </div>
+                    
+                    <a href="https://aosima858588-boop.github.io/shequpindao/" target="_blank" style="text-decoration: none;">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <h3 class="feature-title">链上赚币</h3>
+                            <p class="feature-desc">参与OKX活动</p>
+                        </div>
+                    </a>
+                    
+                    <div class="feature-card" onclick="switchPage('calculator')">
+                        <div class="feature-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="feature-title">收益计算</h3>
+                        <p class="feature-desc">估算投资收益</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 核心工具 -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-tools"></i> 核心工具</h2>
+                </div>
+                
+                <div class="grid grid-4">
+                    <div class="feature-card" onclick="switchPage('model')">
+                        <div class="feature-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3 class="feature-title">模型演示</h3>
+                        <p class="feature-desc">3D交互演示</p>
+                    </div>
+                    
+                    <div class="feature-card" onclick="switchPage('resources')">
+                        <div class="feature-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="feature-title">资源中心</h3>
+                        <p class="feature-desc">学习与工具</p>
+                    </div>
+                    
+                    <div class="feature-card" onclick="switchPage('ai')">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="feature-title">AI助手</h3>
+                        <p class="feature-desc">智能问答</p>
+                    </div>
+                    
+                    <div class="feature-card" onclick="switchPage('wallet')">
+                        <div class="feature-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <h3 class="feature-title">模拟钱包</h3>
+                        <p class="feature-desc">资产管理</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 其他页面内容保持类似结构，由于篇幅限制这里不重复展示 -->
+        <!-- 实际实现时需要包含所有页面内容 -->
+        
+    </div>
+    
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active" onclick="switchPage('home'); return false;">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchPage('model'); return false;">
+            <i class="fas fa-cube"></i>
+            <span>模型</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchPage('ai'); return false;">
+            <i class="fas fa-robot"></i>
+            <span>AI助手</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchPage('wallet'); return false;">
+            <i class="fas fa-wallet"></i>
+            <span>钱包</span>
+        </a>
+    </div>
+    
+    <!-- Toast容器 -->
+    <div class="toast-container" id="toast-container"></div>
+    
+    <script>
+        // 用户数据管理
+        let userData = {
+            points: 150,
+            totalSignins: 7,
+            consecutiveDays: 3,
+            lastSigninDate: null,
+            lotteryCount: 2,
+            prizesWon: [],
+            walletBalance: 1245.67,
+            activeDays: 12,
+            signinHistory: {}
+        };
+        
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            renderSigninCalendar();
+            updateStats();
+            renderTransactionHistory();
+            renderLotteryHistory();
+            updateLotteryPoints();
+            
+            // 设置今天日期
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            
+            // 如果今天还没签到，启用签到按钮
+            if (userData.lastSigninDate !== todayStr) {
+                document.getElementById('signinButton').innerHTML = '<i class="fas fa-check-circle"></i> 今日签到';
+                document.getElementById('signinButton').disabled = false;
+            } else {
+                document.getElementById('signinButton').innerHTML = '<i class="fas fa-check-circle"></i> 今日已签到';
+                document.getElementById('signinButton').disabled = true;
+            }
+            
+            // 初始化一些模拟数据
+            if (userData.prizesWon.length === 0) {
+                userData.prizesWon = [
+                    { name: '三等奖', reward: '50积分', date: '2023-10-15 14:30' },
+                    { name: '二等奖', reward: '200积分', date: '2023-10-10 11:20' }
+                ];
+            }
+            
+            // 初始化签到历史
+            if (Object.keys(userData.signinHistory).length === 0) {
+                const today = new Date();
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(today);
+                    date.setDate(date.getDate() - i);
+                    const dateStr = date.toISOString().split('T')[0];
+                    userData.signinHistory[dateStr] = true;
+                }
+                userData.lastSigninDate = new Date(today.setDate(today.getDate() - 1)).toISOString().split('T')[0];
+                userData.totalSignins = 7;
+                userData.consecutiveDays = 3;
+            }
+        });
+        
+        // 加载用户数据
+        function loadUserData() {
+            const savedData = localStorage.getItem('dolphinCommunityData');
+            if (savedData) {
+                const parsed = JSON.parse(savedData);
+                userData = { ...userData, ...parsed };
+            }
+        }
+        
+        // 保存用户数据
+        function saveUserData() {
+            localStorage.setItem('dolphinCommunityData', JSON.stringify(userData));
+        }
+        
+        // 切换页面
+        function switchPage(pageId) {
+            // 隐藏所有页面
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 显示目标页面
+            document.getElementById(`${pageId}-page`).classList.add('active');
+            
+            // 更新导航状态
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // 设置对应的导航项为活动状态
+            if (pageId === 'home') {
+                document.querySelector('.nav-item:nth-child(1)').classList.add('active');
+            } else if (pageId === 'model') {
+                document.querySelector('.nav-item:nth-child(2)').classList.add('active');
+            } else if (pageId === 'ai') {
+                document.querySelector('.nav-item:nth-child(3)').classList.add('active');
+            } else if (pageId === 'wallet') {
+                document.querySelector('.nav-item:nth-child(4)').classList.add('active');
+            }
+            
+            // 更新页面特定内容
+            if (pageId === 'wallet') {
+                updateWalletDisplay();
+            } else if (pageId === 'lottery') {
+                updateLotteryPoints();
+            }
+            
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 显示Toast消息
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'info-circle';
+            let title = '提示';
+            
+            switch(type) {
+                case 'success':
+                    icon = 'check-circle';
+                    title = '成功';
+                    break;
+                case 'error':
+                    icon = 'exclamation-circle';
+                    title = '错误';
+                    break;
+                case 'warning':
+                    icon = 'exclamation-triangle';
+                    title = '警告';
+                    break;
+            }
+            
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas fa-${icon}"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // 3秒后移除toast
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 3000);
+        }
+        
+        // 更新统计数据
+        function updateStats() {
+            document.getElementById('totalSignins').textContent = userData.totalSignins;
+            document.getElementById('totalPrizes').textContent = userData.prizesWon.length;
+            document.getElementById('totalBalance').textContent = userData.points;
+            document.getElementById('activeDays').textContent = userData.activeDays;
+            
+            document.getElementById('currentPoints').textContent = userData.points;
+            document.getElementById('consecutiveDays').textContent = userData.consecutiveDays;
+            
+            document.getElementById('lotteryPoints').textContent = userData.points;
+            document.getElementById('lotteryCount').textContent = userData.lotteryCount;
+        }
+        
+        // 渲染签到日历
+        function renderSigninCalendar() {
+            const calendarEl = document.getElementById('signinCalendar');
+            if (!calendarEl) return;
+            
+            calendarEl.innerHTML = '';
+            
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth();
+            const currentDate = today.getDate();
+            
+            // 获取当月第一天
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            // 获取当月最后一天
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            
+            // 创建日期数组
+            const daysInMonth = lastDay.getDate();
+            const signinHistory = userData.signinHistory || {};
+            
+            // 生成日历
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day';
+                
+                const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                
+                // 检查是否已签到
+                if (signinHistory[dateStr]) {
+                    dayEl.classList.add('signed');
+                }
+                
+                // 检查是否是今天
+                if (day === currentDate) {
+                    dayEl.classList.add('today');
+                }
+                
+                dayEl.innerHTML = `
+                    <div>${day}</div>
+                    <div class="calendar-day-label">${signinHistory[dateStr] ? '已签' : (day === currentDate ? '今天' : '')}</div>
+                `;
+                
+                calendarEl.appendChild(dayEl);
+            }
+        }
+        
+        // 签到功能
+        function signIn() {
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            
+            // 检查是否已签到
+            if (userData.lastSigninDate === todayStr) {
+                showToast('今天已经签过到了！', 'warning');
+                return;
+            }
+            
+            // 计算连续签到
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toISOString().split('T')[0];
+            
+            if (userData.lastSigninDate === yesterdayStr) {
+                userData.consecutiveDays++;
+            } else {
+                userData.consecutiveDays = 1;
+            }
+            
+            // 更新签到数据
+            userData.lastSigninDate = todayStr;
+            userData.totalSignins++;
+            userData.activeDays++;
+            
+            // 初始化签到历史记录
+            if (!userData.signinHistory) {
+                userData.signinHistory = {};
+            }
+            userData.signinHistory[todayStr] = true;
+            
+            // 计算奖励积分
+            let pointsEarned = 10;
+            
+            // 连续签到奖励
+            if (userData.consecutiveDays >= 30) {
+                pointsEarned += 150;
+            } else if (userData.consecutiveDays >= 7) {
+                pointsEarned += 30;
+            } else if (userData.consecutiveDays >= 3) {
+                pointsEarned += 10;
+            }
+            
+            // 每月满勤奖励（模拟）
+            const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+            if (Object.keys(userData.signinHistory).length >= daysInMonth) {
+                pointsEarned += 200;
+                showToast('恭喜获得本月满勤奖励！', 'success');
+            }
+            
+            userData.points += pointsEarned;
+            
+            // 更新UI
+            const signinButton = document.getElementById('signinButton');
+            if (signinButton) {
+                signinButton.innerHTML = '<i class="fas fa-check-circle"></i> 今日已签到';
+                signinButton.disabled = true;
+            }
+            
+            // 保存数据并更新显示
+            saveUserData();
+            updateStats();
+            renderSigninCalendar();
+            
+            showToast(`签到成功！获得${pointsEarned}积分。连续签到${userData.consecutiveDays}天。`, 'success');
+        }
+        
+        // 抽奖功能
+        function drawLottery() {
+            // 检查积分是否足够
+            if (userData.points < 50) {
+                showToast('积分不足，需要50积分才能抽奖！', 'error');
+                return;
+            }
+            
+            // 扣除积分
+            userData.points -= 50;
+            userData.lotteryCount++;
+            
+            // 模拟抽奖
+            const random = Math.random();
+            let prize = {};
+            
+            if (random < 0.01) {
+                // 特等奖 1%
+                prize = { name: '特等奖', reward: '1000积分 + NFT盲盒', points: 1000, type: 'grand' };
+                const prize1 = document.getElementById('prize1');
+                if (prize1) prize1.classList.add('won');
+            } else if (random < 0.06) {
+                // 一等奖 5%
+                prize = { name: '一等奖', reward: '500积分', points: 500, type: 'first' };
+                const prize2 = document.getElementById('prize2');
+                if (prize2) prize2.classList.add('won');
+            } else if (random < 0.16) {
+                // 二等奖 10%
+                prize = { name: '二等奖', reward: '200积分', points: 200, type: 'second' };
+                const prize3 = document.getElementById('prize3');
+                if (prize3) prize3.classList.add('won');
+            } else if (random < 0.36) {
+                // 三等奖 20%
+                prize = { name: '三等奖', reward: '50积分', points: 50, type: 'third' };
+                const prize4 = document.getElementById('prize4');
+                if (prize4) prize4.classList.add('won');
+            } else {
+                // 未中奖 64%
+                prize = { name: '未中奖', reward: '谢谢参与', points: 0, type: 'none' };
+            }
+            
+            // 添加奖励积分
+            userData.points += prize.points;
+            
+            // 记录中奖信息
+            if (prize.type !== 'none') {
+                prize.date = new Date().toLocaleString('zh-CN');
+                userData.prizesWon.push(prize);
+            }
+            
+            // 保存数据
+            saveUserData();
+            
+            // 更新显示
+            updateStats();
+            updateLotteryPoints();
+            renderLotteryHistory();
+            
+            // 显示结果
+            if (prize.type !== 'none') {
+                showToast(`恭喜获得${prize.name}：${prize.reward}！`, 'success');
+                
+                // 3秒后移除中奖标记
+                setTimeout(() => {
+                    const prizeItems = document.querySelectorAll('.prize-item');
+                    prizeItems.forEach(item => {
+                        item.classList.remove('won');
+                    });
+                }, 3000);
+            } else {
+                showToast('很遗憾，这次没有中奖，下次好运！', 'info');
+            }
+        }
+        
+        // 更新抽奖页面积分显示
+        function updateLotteryPoints() {
+            const lotteryPoints = document.getElementById('lotteryPoints');
+            if (lotteryPoints) {
+                lotteryPoints.textContent = userData.points;
+            }
+        }
+        
+        // 渲染抽奖历史
+        function renderLotteryHistory() {
+            const historyEl = document.getElementById('lotteryHistory');
+            if (!historyEl) return;
+            
+            historyEl.innerHTML = '';
+            
+            if (userData.prizesWon.length === 0) {
+                historyEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-gift"></i>
+                        <p>暂无抽奖记录<br>快去试试手气吧！</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 只显示最近5条记录
+            const recentPrizes = userData.prizesWon.slice(-5).reverse();
+            
+            recentPrizes.forEach(prize => {
+                const item = document.createElement('div');
+                item.className = 'transaction-item';
+                
+                let icon = 'gift';
+                let iconClass = 'transaction-icon';
+                
+                if (prize.type === 'grand') {
+                    icon = 'gem';
+                } else if (prize.type === 'first') {
+                    icon = 'award';
+                } else if (prize.type === 'second') {
+                    icon = 'medal';
+                } else if (prize.type === 'third') {
+                    icon = 'coins';
+                }
+                
+                item.innerHTML = `
+                    <div class="${iconClass}" style="background: rgba(255, 126, 95, 0.1); color: var(--accent);">
+                        <i class="fas fa-${icon}"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-title">${prize.name}</div>
+                        <div class="transaction-subtitle">${prize.reward}</div>
+                    </div>
+                    <div class="transaction-amount" style="color: var(--accent);">
+                        +${prize.points}
+                    </div>
+                `;
+                
+                historyEl.appendChild(item);
+            });
+        }
+        
+        // 渲染交易历史
+        function renderTransactionHistory() {
+            const transactionEl = document.getElementById('transaction-list');
+            if (!transactionEl) return;
+            
+            transactionEl.innerHTML = '';
+            
+            // 模拟交易数据
+            const transactions = [
+                { type: 'receive', amount: '+0.05 BTC', from: '0x3f5...c2a1', date: '10-15 14:30', value: '$1,850' },
+                { type: 'send', amount: '-0.8 ETH', to: '0x7b9...d4f6', date: '10-12 11:20', value: '$1,240' },
+                { type: 'receive', amount: '+500 USDT', from: '交易所充值', date: '10-10 09:15', value: '$500' },
+                { type: 'swap', amount: 'ETH → USDC', details: '0.5 ETH → 850 USDC', date: '10-08 16:45', value: '$850' },
+                { type: 'receive', amount: '+0.01 BTC', from: '挖矿奖励', date: '10-05 13:10', value: '$370' }
+            ];
+            
+            transactions.forEach(tx => {
+                const item = document.createElement('div');
+                item.className = 'transaction-item';
+                
+                let icon = '';
+                let iconClass = '';
+                let title = '';
+                let subtitle = '';
+                let amountClass = '';
+                
+                if (tx.type === 'receive') {
+                    icon = 'arrow-down';
+                    iconClass = 'transaction-icon receive';
+                    title = '接收';
+                    subtitle = `来自: ${tx.from}`;
+                    amountClass = 'receive';
+                } else if (tx.type === 'send') {
+                    icon = 'arrow-up';
+                    iconClass = 'transaction-icon send';
+                    title = '发送';
+                    subtitle = `至: ${tx.to}`;
+                    amountClass = 'send';
+                } else {
+                    icon = 'exchange-alt';
+                    iconClass = 'transaction-icon swap';
+                    title = '兑换';
+                    subtitle = tx.details;
+                    amountClass = '';
+                }
+                
+                item.innerHTML = `
+                    <div class="${iconClass}">
+                        <i class="fas fa-${icon}"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-title">${title}</div>
+                        <div class="transaction-subtitle">${subtitle} · ${tx.date}</div>
+                    </div>
+                    <div class="transaction-amount ${amountClass}">
+                        ${tx.amount}
+                    </div>
+                `;
+                
+                transactionEl.appendChild(item);
+            });
+        }
+        
+        // 更新钱包显示
+        function updateWalletDisplay() {
+            const walletBalance = document.getElementById('wallet-balance');
+            if (walletBalance) {
+                walletBalance.textContent = `$${userData.walletBalance.toFixed(2)}`;
+            }
+        }
+        
+        // AI助手功能
+        function askAI() {
+            const questionInput = document.getElementById('ai-question');
+            if (!questionInput) return;
+            
+            const question = questionInput.value.trim();
+            if (!question) {
+                showToast('请输入问题', 'warning');
+                return;
+            }
+            
+            const responseEl = document.getElementById('ai-response');
+            if (!responseEl) return;
+            
+            responseEl.innerHTML = '<div style="text-align: center; padding: 40px 20px;"><div class="loading" style="margin: 0 auto 20px;"></div><p style="color: var(--text-secondary);">AI正在思考中...</p></div>';
+            
+            // 模拟AI回复延迟
+            setTimeout(() => {
+                let answer = '';
+                
+                // 根据问题关键词生成回复
+                if (question.includes('Web3') || question.includes('web3')) {
+                    answer = `<p><strong>Web3</strong> 是下一代互联网，基于区块链技术构建，具有去中心化、用户数据主权、通证经济等特征。</p>
+                    <p>与Web2相比，Web3将控制权从中心化平台转移给用户，通过智能合约实现无需信任的交互。Web3应用包括去中心化金融(DeFi)、非同质化代币(NFT)、去中心化自治组织(DAO)等。</p>
+                    <p>核心特点：</p>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>去中心化：数据存储在分布式网络中</li>
+                        <li>用户主权：用户控制自己的数据和身份</li>
+                        <li>通证经济：通过代币激励参与和贡献</li>
+                        <li>可组合性：应用之间可以相互集成</li>
+                    </ul>`;
+                } else if (question.includes('钱包') || question.includes('wallet')) {
+                    answer = `<p><strong>创建加密货币钱包的步骤：</strong></p>
+                    <ol style="padding-left: 20px; margin-top: 10px;">
+                        <li>选择钱包类型：硬件钱包（最安全）、软件钱包（方便）、网页钱包（易用）</li>
+                        <li>下载并安装钱包应用</li>
+                        <li>创建新钱包，生成助记词（12-24个单词）</li>
+                        <li>安全备份助记词，切勿泄露</li>
+                        <li>设置钱包密码</li>
+                        <li>验证助记词备份</li>
+                        <li>开始接收和发送加密货币</li>
+                    </ol>
+                    <p style="margin-top: 15px;"><strong>推荐钱包：</strong></p>
+                    <ul style="padding-left: 20px;">
+                        <li>MetaMask（以太坊生态）</li>
+                        <li>Trust Wallet（多链支持）</li>
+                        <li>Ledger/Trezor（硬件钱包）</li>
+                    </ul>`;
+                } else if (question.includes('智能合约') || question.includes('smart contract')) {
+                    answer = `<p><strong>智能合约</strong>是部署在区块链上的自执行合约，代码中定义了合约条款。当预设条件满足时，智能合约自动执行相应操作。</p>
+                    <p>特点包括：</p>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>去中心化执行，无需第三方</li>
+                        <li>透明且不可篡改</li>
+                        <li>自动化执行，减少人为错误</li>
+                        <li>降低交易成本和时间</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>智能合约常用语言：</strong></p>
+                    <ul style="padding-left: 20px;">
+                        <li>Solidity（以太坊）</li>
+                        <li>Rust（Solana）</li>
+                        <li>Move（Aptos/Sui）</li>
+                    </ul>`;
+                } else if (question.includes('投资') || question.includes('赚钱')) {
+                    answer = `<p><strong>加密货币投资策略：</strong></p>
+                    <ol style="padding-left: 20px; margin-top: 10px;">
+                        <li>研究学习：了解区块链技术、项目背景、团队实力</li>
+                        <li>分散投资：不要将所有资金投入单一资产</li>
+                        <li>长期持有：考虑长期投资而非短期投机</li>
+                        <li>风险管理：只投资能承受损失的资金</li>
+                        <li>安全第一：使用硬件钱包存储大额资产</li>
+                        <li>关注趋势：了解行业发展和监管动态</li>
+                    </ol>
+                    <p style="margin-top: 15px; padding: 12px; background: rgba(255, 126, 95, 0.1); border-radius: 8px; border-left: 4px solid var(--accent);">
+                        <strong>风险提示：</strong>加密货币波动性大，投资需谨慎。过去表现不代表未来结果。
+                    </p>`;
+                } else {
+                    answer = `<p>感谢您的提问！这是一个关于"${question}"的AI模拟回答。</p>
+                    <p>在实际应用中，此功能将连接真实的AI模型（如GPT-4、Claude等）提供准确的Web3相关信息。您的问题已记录，建议结合实际场景深入研究相关主题。</p>
+                    <p style="margin-top: 15px; font-style: italic;">提示：您可以尝试询问关于Web3、区块链、智能合约、加密货币投资等方面的问题。</p>`;
+                }
+                
+                responseEl.innerHTML = answer;
+                showToast('AI已回答您的问题', 'success');
+            }, 1500);
+        }
+        
+        // 加载示例问题
+        function loadExampleQuestion(question) {
+            const aiQuestion = document.getElementById('ai-question');
+            if (aiQuestion) {
+                aiQuestion.value = question;
+                aiQuestion.focus();
+            }
+        }
+        
+        // 计算投资收益
+        function calculateReturns() {
+            const initial = parseFloat(document.getElementById('initialInvestment').value);
+            const monthly = parseFloat(document.getElementById('monthlyContribution').value);
+            const annualRate = parseFloat(document.getElementById('annualReturn').value) / 100;
+            const years = parseFloat(document.getElementById('investmentPeriod').value);
+            
+            if (isNaN(initial) || isNaN(monthly) || isNaN(annualRate) || isNaN(years)) {
+                showToast('请输入有效的数值', 'error');
+                return;
+            }
+            
+            // 计算每月利率
+            const monthlyRate = annualRate / 12;
+            const months = years * 12;
+            
+            // 计算未来价值（复利计算）
+            // 初始投资的未来价值
+            let futureValue = initial * Math.pow(1 + monthlyRate, months);
+            
+            // 每月追加投资的未来价值
+            for (let i = 0; i < months; i++) {
+                futureValue += monthly * Math.pow(1 + monthlyRate, months - i - 1);
+            }
+            
+            // 总投资额
+            const totalInvestment = initial + (monthly * months);
+            
+            // 总收益
+            const totalReturns = futureValue - totalInvestment;
+            
+            // 更新显示
+            const finalAmount = document.getElementById('finalAmount');
+            const totalInvestmentEl = document.getElementById('totalInvestment');
+            const totalReturnsEl = document.getElementById('totalReturns');
+            const annualReturnDisplay = document.getElementById('annualReturnDisplay');
+            const calculatorResult = document.getElementById('calculatorResult');
+            
+            if (finalAmount) finalAmount.textContent = `$${futureValue.toFixed(2)}`;
+            if (totalInvestmentEl) totalInvestmentEl.textContent = `$${totalInvestment.toFixed(2)}`;
+            if (totalReturnsEl) totalReturnsEl.textContent = `$${totalReturns.toFixed(2)}`;
+            if (annualReturnDisplay) annualReturnDisplay.textContent = `${(annualRate * 100).toFixed(1)}%`;
+            
+            // 显示结果
+            if (calculatorResult) calculatorResult.style.display = 'block';
+            
+            showToast('收益计算完成！', 'success');
+        }
+    </script>
+</body>
+</html>
