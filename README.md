@@ -74,8 +74,8 @@ viphuiyuan/
 ├── index.html      # 主 HTML 文件
 ├── styles.css      # 样式表
 ├── app.js          # 应用逻辑
-├── README.md       # 项目说明
-└── LICENSE         # 许可证
+├── .gitignore      # Git 忽略配置
+└── README.md       # 项目说明
 ```
 
 ## 🌐 支持的网络
@@ -109,7 +109,7 @@ viphuiyuan/
 
 ## 📄 许可证
 
-请查看 [LICENSE](LICENSE) 文件了解详情。
+本项目遵循仓库根目录的 LICENSE 文件。
 
 ## 📞 联系方式
 

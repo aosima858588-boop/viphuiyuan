@@ -24,7 +24,10 @@ class Web3Wallet {
 
             // 监听网络变化
             this.web3.on('chainChanged', () => {
-                window.location.reload();
+                if (this.account) {
+                    this.updateNetwork();
+                    this.updateBalance();
+                }
             });
 
             // 检查是否已经连接
@@ -107,8 +110,9 @@ class Web3Wallet {
                 params: [this.account, 'latest']
             });
 
-            // 将 Wei 转换为 ETH
-            const ethBalance = parseInt(balance, 16) / Math.pow(10, 18);
+            // 将 Wei 转换为 ETH，使用 BigInt 保持精度
+            const weiBalance = BigInt(balance);
+            const ethBalance = Number(weiBalance) / Math.pow(10, 18);
             document.getElementById('accountBalance').textContent = ethBalance.toFixed(4) + ' ETH';
         } catch (error) {
             console.error('获取余额失败:', error);
@@ -170,8 +174,10 @@ class Web3Wallet {
             statusDiv.className = 'transaction-status';
             statusDiv.classList.remove('hidden', 'success', 'error');
 
-            // 将 ETH 转换为 Wei
-            const amountInWei = '0x' + (parseFloat(amount) * Math.pow(10, 18)).toString(16);
+            // 将 ETH 转换为 Wei，使用 BigInt 保持精度
+            const ethAmount = parseFloat(amount);
+            const weiAmount = BigInt(Math.floor(ethAmount * Math.pow(10, 18)));
+            const amountInWei = '0x' + weiAmount.toString(16);
 
             // 发送交易
             const txHash = await this.web3.request({
