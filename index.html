@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 钱包 - VIP汇源</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Web3 钱包应用</h1>
+            <p class="subtitle">连接您的以太坊钱包</p>
+        </header>
+
+        <main>
+            <div class="card" id="connectionCard">
+                <h2>钱包连接</h2>
+                <div id="notConnected" class="section">
+                    <p class="info-text">请连接您的 MetaMask 钱包以开始使用</p>
+                    <button id="connectButton" class="btn btn-primary">
+                        <span class="btn-icon">🦊</span>
+                        连接 MetaMask
+                    </button>
+                    <p class="help-text">没有 MetaMask? <a href="https://metamask.io/download/" target="_blank">点击这里下载</a></p>
+                </div>
+
+                <div id="connected" class="section hidden">
+                    <div class="status-badge success">
+                        <span class="status-icon">✓</span>
+                        已连接
+                    </div>
+                    <div class="wallet-info">
+                        <div class="info-row">
+                            <span class="label">账户地址:</span>
+                            <span id="accountAddress" class="value address"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">余额:</span>
+                            <span id="accountBalance" class="value balance"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">网络:</span>
+                            <span id="networkName" class="value"></span>
+                        </div>
+                    </div>
+                    <button id="disconnectButton" class="btn btn-secondary">断开连接</button>
+                </div>
+            </div>
+
+            <div class="card" id="transactionCard">
+                <h2>发送交易</h2>
+                <div id="transactionForm" class="section hidden">
+                    <form id="sendForm">
+                        <div class="form-group">
+                            <label for="recipientAddress">接收地址:</label>
+                            <input 
+                                type="text" 
+                                id="recipientAddress" 
+                                placeholder="0x..."
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">金额 (ETH):</label>
+                            <input 
+                                type="number" 
+                                id="amount" 
+                                placeholder="0.01"
+                                step="0.001"
+                                min="0"
+                                required
+                            >
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-icon">💸</span>
+                            发送交易
+                        </button>
+                    </form>
+                    <div id="transactionStatus" class="transaction-status hidden"></div>
+                </div>
+            </div>
+
+            <div class="card" id="featuresCard">
+                <h2>功能特性</h2>
+                <ul class="features-list">
+                    <li>
+                        <span class="feature-icon">🔗</span>
+                        <div>
+                            <strong>钱包连接</strong>
+                            <p>安全连接到 MetaMask 钱包</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">💰</span>
+                        <div>
+                            <strong>余额查询</strong>
+                            <p>实时查看您的 ETH 余额</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">📤</span>
+                        <div>
+                            <strong>发送交易</strong>
+                            <p>向任何地址发送以太坊</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">🌐</span>
+                        <div>
+                            <strong>多网络支持</strong>
+                            <p>支持主网和测试网</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2026 VIP汇源 Web3 钱包应用 | 安全 • 简单 • 可靠</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
