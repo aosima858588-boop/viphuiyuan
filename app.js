@@ -112,7 +112,10 @@ class Web3Wallet {
 
             // 将 Wei 转换为 ETH，使用 BigInt 保持精度
             const weiBalance = BigInt(balance);
-            const ethBalance = Number(weiBalance) / Math.pow(10, 18);
+            // 分别计算整数部分和小数部分以保持精度
+            const ethWhole = weiBalance / BigInt(10**18);
+            const ethFraction = weiBalance % BigInt(10**18);
+            const ethBalance = Number(ethWhole) + Number(ethFraction) / 10**18;
             document.getElementById('accountBalance').textContent = ethBalance.toFixed(4) + ' ETH';
         } catch (error) {
             console.error('获取余额失败:', error);
@@ -175,8 +178,9 @@ class Web3Wallet {
             statusDiv.classList.remove('hidden', 'success', 'error');
 
             // 将 ETH 转换为 Wei，使用 BigInt 保持精度
+            // 四舍五入避免浮点精度问题
             const ethAmount = parseFloat(amount);
-            const weiAmount = BigInt(Math.floor(ethAmount * Math.pow(10, 18)));
+            const weiAmount = BigInt(Math.round(ethAmount * 1e18));
             const amountInWei = '0x' + weiAmount.toString(16);
 
             // 发送交易
