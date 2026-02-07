@@ -24,7 +24,7 @@ These guidelines ensure Copilot-generated code aligns with our project's standar
 - **ALWAYS use BigInt** for Wei/ETH conversions to maintain precision
 - Split conversions into whole and fractional parts when needed
 - Never use regular numbers for cryptocurrency amounts that could lose precision
-- Example pattern from app.js:110-120, app.js:177-181
+- Use documented patterns for BigInt conversions in cryptocurrency operations
 
 ### Web3 Integration
 - Use `window.ethereum` API for MetaMask integration
@@ -75,5 +75,5 @@ These guidelines ensure Copilot-generated code aligns with our project's standar
 
 ## References
 
-- Project repository: aosima858588-boop/viphuiyuan
+- Project repository: https://github.com/aosima858588-boop/viphuiyuan
 - README.md for setup and usage details
