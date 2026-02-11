@@ -2,125 +2,1574 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web3 钱包 - VIP汇源</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>海豚生态 | 正向收益飞轮 - OKX Wallet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00d4ff;
+            --primary-light: rgba(0, 212, 255, 0.3);
+            --primary-dark: #0099cc;
+            --secondary-color: #9d4edd;
+            --accent-color: #ff6b6b;
+            --text-color: #ffffff;
+            --text-secondary: #a0aec0;
+            --bg-dark: #0a0e17;
+            --bg-card: rgba(16, 23, 41, 0.8);
+            --border-glow: rgba(0, 212, 255, 0.5);
+            --shadow-glow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background: var(--bg-dark);
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: auto;
+        }
+
+        /* 背景线条效果 */
+        .background-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            opacity: 0.1;
+            animation: lineMove 20s linear infinite;
+        }
+
+        .line-1 {
+            top: 10%;
+            left: -100px;
+            width: 300px;
+            height: 1px;
+            animation-delay: 0s;
+        }
+
+        .line-2 {
+            top: 30%;
+            right: -150px;
+            width: 400px;
+            height: 1px;
+            animation-delay: 3s;
+            animation-direction: reverse;
+        }
+
+        .line-3 {
+            bottom: 20%;
+            left: -200px;
+            width: 500px;
+            height: 1px;
+            animation-delay: 6s;
+        }
+
+        .line-4 {
+            bottom: 50%;
+            right: -100px;
+            width: 350px;
+            height: 1px;
+            animation-delay: 9s;
+            animation-direction: reverse;
+        }
+
+        @keyframes lineMove {
+            0% {
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                transform: translateX(100vw) rotate(0deg);
+            }
+        }
+
+        /* 海报主容器 */
+        .poster-container {
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            background: rgba(10, 14, 23, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: var(--shadow-glow), 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 头部区域 - 优化版 */
+        .poster-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            position: relative;
+            z-index: 10;
+            background: rgba(10, 14, 23, 0.9);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            position: relative;
+            overflow: hidden;
+            animation: logoPulse 3s infinite alternate;
+        }
+
+        @keyframes logoPulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+            100% { transform: scale(1.05); box-shadow: 0 0 40px rgba(0, 212, 255, 0.8); }
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 3s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+            position: relative;
+            display: inline-block;
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subtitle::before {
+            content: '';
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            border-radius: 2px;
+        }
+
+        .partner-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .okx-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .okx-logo::after {
+            content: 'Wallet';
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .partner-title {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-left: 5px;
+        }
+
+        /* 左侧操作面板 */
+        .left-panel {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: row;
+            z-index: 100;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .left-toggle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            border-radius: 0 15px 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            z-index: 101;
+        }
+
+        .left-toggle:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
+        }
+
+        .control-panel {
+            width: 0;
+            overflow: hidden;
+            background: rgba(16, 23, 41, 0.95);
+            border-radius: 0 15px 15px 0;
+            box-shadow: 5px 0 30px rgba(0, 0, 0, 0.3);
+            border-right: 1px solid rgba(0, 212, 255, 0.3);
+            border-top: 1px solid rgba(0, 212, 255, 0.3);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .left-panel.expanded .control-panel {
+            width: 260px;
+            padding: 20px 15px;
+        }
+
+        /* 右侧解说面板 */
+        .right-panel {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: row;
+            z-index: 100;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .right-toggle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--secondary-color), #c77dff);
+            border-radius: 15px 0 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(157, 78, 221, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            z-index: 101;
+        }
+
+        .right-toggle:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 8px 30px rgba(157, 78, 221, 0.6);
+        }
+
+        .explanation-panel {
+            width: 0;
+            overflow: hidden;
+            background: rgba(16, 23, 41, 0.95);
+            border-radius: 15px 0 0 15px;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+            border-left: 1px solid rgba(0, 212, 255, 0.3);
+            border-top: 1px solid rgba(0, 212, 255, 0.3);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .right-panel.expanded .explanation-panel {
+            width: 320px;
+            padding: 25px 20px;
+        }
+
+        /* 控制按钮样式 */
+        .control-btn {
+            padding: 14px 20px;
+            margin: 8px 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .control-btn:hover::before {
+            left: 100%;
+        }
+
+        .control-btn:hover {
+            transform: translateX(5px);
+            border-color: var(--primary-color);
+        }
+
+        .control-btn:active {
+            transform: translateX(2px);
+        }
+
+        .speed-control {
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .speed-control:hover {
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .participate-btn {
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .participate-btn:hover {
+            background: rgba(255, 107, 107, 0.1);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+        }
+
+        .analyze-btn {
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .analyze-btn:hover {
+            background: rgba(157, 78, 221, 0.1);
+            box-shadow: 0 5px 15px rgba(157, 78, 221, 0.2);
+        }
+
+        .control-btn i {
+            font-size: 1.3rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* 解说内容样式 */
+        .explanation-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .explanation-header i {
+            font-size: 1.3rem;
+        }
+
+        .explanation-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .explanation-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .explanation-content::-webkit-scrollbar-track {
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .explanation-content::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* 飞轮区域 - 缩小版 */
+        .flywheel-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            flex: 1;
+            position: relative;
+        }
+
+        /* 飞轮容器 - 缩小 */
+        .flywheel-container {
+            width: 500px;
+            height: 500px;
+            position: relative;
+            margin: 0 auto 30px;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+
+        @media (max-width: 900px) {
+            .flywheel-container {
+                width: 450px;
+                height: 450px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .flywheel-container {
+                width: 380px;
+                height: 380px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .flywheel-container {
+                width: 320px;
+                height: 320px;
+            }
+        }
+
+        .flywheel-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .flywheel-circle.outer {
+            width: 100%;
+            height: 100%;
+        }
+
+        .flywheel-circle.middle {
+            width: 70%;
+            height: 70%;
+        }
+
+        .flywheel-circle.inner {
+            width: 40%;
+            height: 40%;
+        }
+
+        /* 飞轮旋转动画 */
+        .flywheel-rotating {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            animation: rotateFlywheel 30s linear infinite;
+        }
+
+        @keyframes rotateFlywheel {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 飞轮节点 */
+        .flywheel-node {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform-origin: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+            opacity: 1;
+        }
+
+        @media (max-width: 900px) {
+            .flywheel-node {
+                width: 75px;
+                height: 75px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .flywheel-node {
+                width: 65px;
+                height: 65px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .flywheel-node {
+                width: 55px;
+                height: 55px;
+            }
+        }
+
+        .flywheel-node:hover {
+            transform: scale(1.2);
+        }
+
+        .node-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 8px;
+            background: rgba(16, 23, 41, 0.95);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 900px) {
+            .node-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .node-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .node-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+        }
+
+        .node-text {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-color);
+            max-width: 90px;
+            line-height: 1.2;
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+            background: rgba(10, 14, 23, 0.8);
+            padding: 5px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        @media (max-width: 900px) {
+            .node-text {
+                font-size: 0.8rem;
+                max-width: 75px;
+                padding: 4px 6px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .node-text {
+                font-size: 0.7rem;
+                max-width: 65px;
+                padding: 3px 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .node-text {
+                font-size: 0.6rem;
+                max-width: 55px;
+                padding: 2px 4px;
+            }
+        }
+
+        .flywheel-node.active .node-icon {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 1);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.8); }
+            100% { box-shadow: 0 0 40px rgba(0, 212, 255, 1); }
+        }
+
+        /* 连接线 */
+        .connection-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .line-path {
+            fill: none;
+            stroke: var(--primary-color);
+            stroke-width: 2;
+            stroke-dasharray: 20;
+            stroke-dashoffset: 1000;
+            animation: dash 40s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* 进度条区域 - 更明显 */
+        .progress-section {
+            width: 100%;
+            max-width: 700px;
+            margin: 20px auto;
+            z-index: 10;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .progress-percent {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 25px;
+            background: rgba(16, 23, 41, 0.7);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(0, 212, 255, 0.4);
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color), #00e5ff);
+            border-radius: 12px;
+            width: 0%;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShine 2s infinite linear;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding: 0 5px;
+        }
+
+        .progress-marker {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+            width: 80px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 3px 0;
+            border-radius: 4px;
+        }
+
+        .progress-marker:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .progress-marker.active {
+            color: var(--primary-color);
+            font-weight: 700;
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+            background: rgba(0, 212, 255, 0.15);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 1100px) {
+            .main-title {
+                font-size: 1.9rem;
+            }
+            
+            .okx-logo {
+                font-size: 1.9rem;
+            }
+            
+            .flywheel-container {
+                width: 450px;
+                height: 450px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .poster-header {
+                padding: 12px 20px;
+            }
+            
+            .main-title {
+                font-size: 1.7rem;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+            
+            .subtitle {
+                font-size: 0.95rem;
+            }
+            
+            .okx-logo {
+                font-size: 1.7rem;
+            }
+            
+            .okx-logo::after {
+                font-size: 1.3rem;
+            }
+            
+            .partner-title {
+                font-size: 0.9rem;
+            }
+            
+            .left-toggle, .right-toggle {
+                width: 55px;
+                height: 55px;
+                font-size: 22px;
+            }
+            
+            .left-panel.expanded .control-panel {
+                width: 240px;
+                padding: 18px 15px;
+            }
+            
+            .right-panel.expanded .explanation-panel {
+                width: 280px;
+                padding: 22px 18px;
+            }
+            
+            .control-btn {
+                padding: 12px 16px;
+                font-size: 1rem;
+                margin: 7px 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .poster-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 15px;
+            }
+            
+            .main-title {
+                font-size: 1.6rem;
+            }
+            
+            .partner-section {
+                margin-top: 5px;
+            }
+            
+            .left-panel, .right-panel {
+                top: 40%;
+            }
+            
+            .left-toggle, .right-toggle {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                border-radius: 0 10px 10px 0;
+            }
+            
+            .right-toggle {
+                border-radius: 10px 0 0 10px;
+            }
+            
+            .left-panel.expanded .control-panel {
+                width: 220px;
+                padding: 15px 12px;
+            }
+            
+            .right-panel.expanded .explanation-panel {
+                width: 250px;
+                padding: 20px 15px;
+            }
+            
+            .explanation-content {
+                height: 250px;
+            }
+            
+            .progress-bar-container {
+                height: 22px;
+            }
+            
+            .progress-percent {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.4rem;
+            }
+            
+            .logo-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+            
+            .okx-logo {
+                font-size: 1.5rem;
+            }
+            
+            .okx-logo::after {
+                font-size: 1.1rem;
+            }
+            
+            .partner-title {
+                font-size: 0.8rem;
+            }
+            
+            .left-toggle, .right-toggle {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+            
+            .left-panel.expanded .control-panel {
+                width: 200px;
+                padding: 12px 10px;
+            }
+            
+            .right-panel.expanded .explanation-panel {
+                width: 220px;
+                padding: 15px 12px;
+            }
+            
+            .control-btn {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+                margin: 6px 0;
+            }
+            
+            .explanation-content {
+                height: 220px;
+                font-size: 0.9rem;
+            }
+            
+            .progress-bar-container {
+                height: 20px;
+            }
+            
+            .progress-percent {
+                font-size: 1.5rem;
+            }
+            
+            .progress-marker {
+                font-size: 0.75rem;
+                width: 70px;
+            }
+        }
+
+        @media (max-height: 800px) {
+            .flywheel-container {
+                width: 450px;
+                height: 450px;
+                margin-bottom: 25px;
+            }
+            
+            .progress-section {
+                margin: 15px auto;
+            }
+            
+            .left-panel, .right-panel {
+                top: 45%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🔐 Web3 钱包应用</h1>
-            <p class="subtitle">连接您的以太坊钱包</p>
-        </header>
-
-        <main>
-            <div class="card" id="connectionCard">
-                <h2>钱包连接</h2>
-                <div id="notConnected" class="section">
-                    <p class="info-text">请连接您的 MetaMask 钱包以开始使用</p>
-                    <button id="connectButton" class="btn btn-primary">
-                        <span class="btn-icon">🦊</span>
-                        连接 MetaMask
-                    </button>
-                    <p class="help-text">没有 MetaMask? <a href="https://metamask.io/download/" target="_blank">点击这里下载</a></p>
-                </div>
-
-                <div id="connected" class="section hidden">
-                    <div class="status-badge success">
-                        <span class="status-icon">✓</span>
-                        已连接
-                    </div>
-                    <div class="wallet-info">
-                        <div class="info-row">
-                            <span class="label">账户地址:</span>
-                            <span id="accountAddress" class="value address"></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="label">余额:</span>
-                            <span id="accountBalance" class="value balance"></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="label">网络:</span>
-                            <span id="networkName" class="value"></span>
-                        </div>
-                    </div>
-                    <button id="disconnectButton" class="btn btn-secondary">断开连接</button>
-                </div>
-            </div>
-
-            <div class="card" id="transactionCard">
-                <h2>发送交易</h2>
-                <div id="transactionForm" class="section hidden">
-                    <form id="sendForm">
-                        <div class="form-group">
-                            <label for="recipientAddress">接收地址:</label>
-                            <input 
-                                type="text" 
-                                id="recipientAddress" 
-                                placeholder="0x..."
-                                required
-                            >
-                        </div>
-                        <div class="form-group">
-                            <label for="amount">金额 (ETH):</label>
-                            <input 
-                                type="number" 
-                                id="amount" 
-                                placeholder="0.01"
-                                step="0.001"
-                                min="0"
-                                required
-                            >
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            <span class="btn-icon">💸</span>
-                            发送交易
-                        </button>
-                    </form>
-                    <div id="transactionStatus" class="transaction-status hidden"></div>
-                </div>
-            </div>
-
-            <div class="card" id="featuresCard">
-                <h2>功能特性</h2>
-                <ul class="features-list">
-                    <li>
-                        <span class="feature-icon">🔗</span>
-                        <div>
-                            <strong>钱包连接</strong>
-                            <p>安全连接到 MetaMask 钱包</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">💰</span>
-                        <div>
-                            <strong>余额查询</strong>
-                            <p>实时查看您的 ETH 余额</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">📤</span>
-                        <div>
-                            <strong>发送交易</strong>
-                            <p>向任何地址发送以太坊</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">🌐</span>
-                        <div>
-                            <strong>多网络支持</strong>
-                            <p>支持主网和测试网</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </main>
-
-        <footer>
-            <p>© 2026 VIP汇源 Web3 钱包应用 | 安全 • 简单 • 可靠</p>
-        </footer>
+    <!-- 背景线条 -->
+    <div class="background-lines">
+        <div class="line line-1"></div>
+        <div class="line line-2"></div>
+        <div class="line line-3"></div>
+        <div class="line line-4"></div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- 海报主容器 -->
+    <div class="poster-container">
+        <!-- 头部区域 -->
+        <div class="poster-header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-dolphin"></i>
+                </div>
+                <div class="logo-text">
+                    <h1 class="main-title">链上赚币 | 智能质押</h1>
+                    <div class="subtitle">海豚生态 · 正向收益飞轮</div>
+                </div>
+            </div>
+            
+            <div class="partner-section">
+                <div class="okx-logo">
+                    <span>OKX</span>
+                </div>
+                <div class="partner-title">联合打造</div>
+            </div>
+        </div>
+
+        <!-- 左侧操作面板 -->
+        <div class="left-panel" id="leftPanel">
+            <button class="left-toggle" id="leftToggle">
+                <i class="fas fa-sliders-h"></i>
+            </button>
+            
+            <div class="control-panel">
+                <button class="control-btn speed-control" id="speedUpBtn">
+                    <i class="fas fa-forward"></i>
+                    <span>加速飞轮</span>
+                </button>
+                
+                <button class="control-btn speed-control" id="speedDownBtn">
+                    <i class="fas fa-backward"></i>
+                    <span>减速飞轮</span>
+                </button>
+                
+                <button class="control-btn participate-btn" id="participateBtn">
+                    <i class="fas fa-rocket"></i>
+                    <span>立即参与</span>
+                </button>
+                
+                <button class="control-btn analyze-btn" id="analyzeBtn">
+                    <i class="fas fa-chart-line"></i>
+                    <span>模型解析</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 右侧解说面板 -->
+        <div class="right-panel" id="rightPanel">
+            <button class="right-toggle" id="rightToggle">
+                <i class="fas fa-info-circle"></i>
+            </button>
+            
+            <div class="explanation-panel">
+                <div class="explanation-header">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="explanationTitle">海豚生态飞轮解析</span>
+                </div>
+                <div class="explanation-content" id="explanationContent">
+                    点击飞轮上的任意节点或等待飞轮自动旋转，此处将显示该节点的详细说明。飞轮转动时，解说框会同步更新当前节点的信息，进度条也会相应前进。
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- 飞轮区域 -->
+            <div class="flywheel-section">
+                <div class="flywheel-container">
+                    <div class="flywheel-rotating" id="flywheel">
+                        <!-- 飞轮圆圈 -->
+                        <div class="flywheel-circle outer"></div>
+                        <div class="flywheel-circle middle"></div>
+                        <div class="flywheel-circle inner"></div>
+                        
+                        <!-- 飞轮节点 -->
+                        <div class="flywheel-node" data-index="0" style="top: 10%; left: 50%;">
+                            <div class="node-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="node-text">质押USDT</div>
+                        </div>
+                        
+                        <div class="flywheel-node" data-index="1" style="top: 25%; left: 85%;">
+                            <div class="node-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="node-text">获得H代币</div>
+                        </div>
+                        
+                        <div class="flywheel-node" data-index="2" style="top: 50%; left: 95%;">
+                            <div class="node-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="node-text">实时计算</div>
+                        </div>
+                        
+                        <div class="flywheel-node" data-index="3" style="top: 75%; left: 85%;">
+                            <div class="node-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <div class="node-text">自动发放</div>
+                        </div>
+                        
+                        <div class="flywheel-node" data-index="4" style="top: 90%; left: 50%;">
+                            <div class="node-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="node-text">查看余额</div>
+                        </div>
+                        
+                        <div class="flywheel-node" data-index="5" style="top: 75%; left: 15%;">
+                            <div class="node-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="node-text">了解权益</div>
+                        </div>
+                        
+                        <div class="flywheel-node" data-index="6" style="top: 50%; left: 5%;">
+                            <div class="node-icon">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <div class="node-text">正向循环</div>
+                        </div>
+                        
+                        <div class="flywheel-node" data-index="7" style="top: 25%; left: 15%;">
+                            <div class="node-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="node-text">飞轮效应</div>
+                        </div>
+                        
+                        <!-- 连接线 -->
+                        <svg class="connection-line" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+                            <path class="line-path" d="M500,100 C700,100 800,200 800,300 C800,400 700,500 500,500 C300,500 200,600 200,700 C200,800 300,900 500,900 C700,900 800,800 800,700 C800,600 700,500 500,500 C300,500 200,400 200,300 C200,200 300,100 500,100" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 进度条区域 -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <div class="progress-title">飞轮进度</div>
+                    <div class="progress-percent" id="progressPercent">0%</div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="progress-markers">
+                    <div class="progress-marker" data-index="0">质押USDT</div>
+                    <div class="progress-marker" data-index="1">获得H代币</div>
+                    <div class="progress-marker" data-index="2">实时计算</div>
+                    <div class="progress-marker" data-index="3">自动发放</div>
+                    <div class="progress-marker" data-index="4">查看余额</div>
+                    <div class="progress-marker" data-index="5">了解权益</div>
+                    <div class="progress-marker" data-index="6">正向循环</div>
+                    <div class="progress-marker" data-index="7">飞轮效应</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const leftPanel = document.getElementById('leftPanel');
+            const leftToggle = document.getElementById('leftToggle');
+            const rightPanel = document.getElementById('rightPanel');
+            const rightToggle = document.getElementById('rightToggle');
+            const flywheel = document.getElementById('flywheel');
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            const explanationTitle = document.getElementById('explanationTitle');
+            const explanationContent = document.getElementById('explanationContent');
+            const speedUpBtn = document.getElementById('speedUpBtn');
+            const speedDownBtn = document.getElementById('speedDownBtn');
+            const participateBtn = document.getElementById('participateBtn');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const progressMarkers = document.querySelectorAll('.progress-marker');
+            const flywheelNodes = document.querySelectorAll('.flywheel-node');
+            
+            // 初始化变量
+            let currentSpeed = 30; // 初始速度：30秒一圈
+            let currentActiveNode = 0; // 当前活动节点索引
+            let totalNodes = 8; // 总节点数
+            let isAutoRotating = true; // 是否自动旋转
+            let autoRotateInterval; // 自动旋转的定时器
+            let isLeftPanelExpanded = false; // 左侧面板是否展开
+            let isRightPanelExpanded = false; // 右侧面板是否展开
+            
+            // 节点数据
+            const nodeData = [
+                {
+                    title: "质押USDT",
+                    content: "用户将USDT存入海豚生态的智能合约中进行质押。这是启动正向收益飞轮的第一步，也是获得H代币奖励的基础。质押的USDT将进入流动性池，为整个生态系统提供价值支撑。质押过程简单安全，通过智能合约自动执行，确保资产安全。"
+                },
+                {
+                    title: "获得H代币",
+                    content: "质押USDT后，系统将自动分配H代币奖励。H代币是海豚生态的核心治理与权益代币，持有者不仅享有收益分配权，还能参与生态治理决策，共同推动项目发展。H代币总量有限，具有通缩机制，长期价值可期。"
+                },
+                {
+                    title: "实时计算",
+                    content: "系统实时计算用户的质押奖励，基于质押量、时间和市场参数动态调整。采用智能算法确保奖励分配的公平性与透明度，所有计算数据均可在链上验证。奖励计算采用复合算法，考虑质押时间、数量和流动性贡献度。"
+                },
+                {
+                    title: "自动发放",
+                    content: "计算完成的H代币奖励将自动发放到用户的加密钱包中，无需手动申领。这一过程完全由智能合约自动执行，确保奖励发放的及时性和安全性，减少人为干预风险。发放频率可根据用户设置调整。"
+                },
+                {
+                    title: "查看余额",
+                    content: "用户可随时在钱包中查看H代币余额及收益明细。系统提供可视化的数据面板，清晰展示收益曲线、累计奖励和预估年化收益率，帮助用户全面了解收益状况。支持多维度数据分析，提供投资决策参考。"
+                },
+                {
+                    title: "了解权益",
+                    content: "深入了解H代币的各类权益，包括治理投票、收益倍增、空投优先权等。持有更多H代币将解锁更高级别的权益，享受生态发展的多重红利。权益体系设计旨在奖励长期持有者和生态贡献者。"
+                },
+                {
+                    title: "正向循环",
+                    content: "获得的H代币可重新质押，形成收益复利效应。这一机制创造了正向循环，使早期参与者的收益随时间呈指数级增长，强化生态的长期价值捕获能力。复利效应是本模型的核心优势之一。"
+                },
+                {
+                    title: "飞轮效应",
+                    content: "随着更多用户参与质押，生态流动性增强，H代币价值提升，进而吸引更多参与者，形成强大的飞轮效应。这一自我强化的正循环是海豚生态持续增长的核心动力，推动生态进入良性发展轨道。"
+                }
+            ];
+            
+            // 初始化页面
+            function initPage() {
+                // 设置初始活动节点
+                setActiveNode(currentActiveNode);
+                
+                // 开始自动旋转
+                startAutoRotation();
+                
+                // 更新飞轮速度
+                updateFlywheelSpeed();
+            }
+            
+            // 设置活动节点
+            function setActiveNode(nodeIndex) {
+                // 移除所有节点的active类
+                flywheelNodes.forEach(node => {
+                    node.classList.remove('active');
+                });
+                
+                // 为当前节点添加active类
+                flywheelNodes[nodeIndex].classList.add('active');
+                currentActiveNode = nodeIndex;
+                
+                // 更新进度条
+                updateProgressBar(nodeIndex);
+                
+                // 更新解说框
+                updateExplanation(nodeIndex);
+                
+                // 更新进度标记
+                updateProgressMarkers(nodeIndex);
+            }
+            
+            // 更新进度条
+            function updateProgressBar(nodeIndex) {
+                const progress = ((nodeIndex + 1) / totalNodes) * 100;
+                progressBar.style.width = `${progress}%`;
+                progressPercent.textContent = `${Math.round(progress)}%`;
+            }
+            
+            // 更新解说框
+            function updateExplanation(nodeIndex) {
+                const data = nodeData[nodeIndex];
+                explanationTitle.textContent = data.title;
+                explanationContent.textContent = data.content;
+            }
+            
+            // 更新进度标记
+            function updateProgressMarkers(nodeIndex) {
+                progressMarkers.forEach((marker, index) => {
+                    if (index === nodeIndex) {
+                        marker.classList.add('active');
+                    } else {
+                        marker.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 更新飞轮速度
+            function updateFlywheelSpeed() {
+                flywheel.style.animationDuration = `${currentSpeed}s`;
+                
+                // 如果正在自动旋转，重新启动自动旋转以应用新速度
+                if (isAutoRotating) {
+                    stopAutoRotation();
+                    startAutoRotation();
+                }
+            }
+            
+            // 开始自动旋转
+            function startAutoRotation() {
+                isAutoRotating = true;
+                
+                // 清除现有定时器
+                if (autoRotateInterval) {
+                    clearInterval(autoRotateInterval);
+                }
+                
+                // 设置新定时器，根据速度调整间隔
+                const intervalTime = (currentSpeed * 1000) / totalNodes;
+                
+                autoRotateInterval = setInterval(() => {
+                    // 移动到下一个节点
+                    currentActiveNode = (currentActiveNode + 1) % totalNodes;
+                    setActiveNode(currentActiveNode);
+                }, intervalTime);
+            }
+            
+            // 停止自动旋转
+            function stopAutoRotation() {
+                isAutoRotating = false;
+                if (autoRotateInterval) {
+                    clearInterval(autoRotateInterval);
+                }
+            }
+            
+            // 加速飞轮
+            function speedUp() {
+                if (currentSpeed > 5) {
+                    currentSpeed -= 5;
+                    updateFlywheelSpeed();
+                    
+                    // 显示速度提示
+                    showSpeedTip('加速', currentSpeed);
+                }
+            }
+            
+            // 减速飞轮
+            function speedDown() {
+                if (currentSpeed < 60) {
+                    currentSpeed += 5;
+                    updateFlywheelSpeed();
+                    
+                    // 显示速度提示
+                    showSpeedTip('减速', currentSpeed);
+                }
+            }
+            
+            // 显示速度提示
+            function showSpeedTip(action, speed) {
+                // 创建提示元素
+                const tip = document.createElement('div');
+                tip.textContent = `${action}成功: ${speed}秒/圈`;
+                tip.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    background: rgba(0, 212, 255, 0.9);
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    font-family: 'Orbitron', sans-serif;
+                    font-weight: 600;
+                    z-index: 1000;
+                    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.5);
+                    animation: fadeInOut 2s ease;
+                `;
+                
+                document.body.appendChild(tip);
+                
+                // 2秒后移除提示
+                setTimeout(() => {
+                    if (tip.parentNode) {
+                        tip.parentNode.removeChild(tip);
+                    }
+                }, 2000);
+            }
+            
+            // 切换左侧控制面板
+            function toggleLeftPanel() {
+                isLeftPanelExpanded = !isLeftPanelExpanded;
+                
+                if (isLeftPanelExpanded) {
+                    leftPanel.classList.add('expanded');
+                    leftToggle.innerHTML = '<i class="fas fa-times"></i>';
+                } else {
+                    leftPanel.classList.remove('expanded');
+                    leftToggle.innerHTML = '<i class="fas fa-sliders-h"></i>';
+                }
+            }
+            
+            // 切换右侧解说面板
+            function toggleRightPanel() {
+                isRightPanelExpanded = !isRightPanelExpanded;
+                
+                if (isRightPanelExpanded) {
+                    rightPanel.classList.add('expanded');
+                    rightToggle.innerHTML = '<i class="fas fa-times"></i>';
+                } else {
+                    rightPanel.classList.remove('expanded');
+                    rightToggle.innerHTML = '<i class="fas fa-info-circle"></i>';
+                }
+            }
+            
+            // 事件监听器
+            // 左侧导航按钮点击事件
+            leftToggle.addEventListener('click', toggleLeftPanel);
+            
+            // 右侧导航按钮点击事件
+            rightToggle.addEventListener('click', toggleRightPanel);
+            
+            // 节点点击事件
+            flywheelNodes.forEach((node, index) => {
+                node.addEventListener('click', () => {
+                    // 停止自动旋转
+                    stopAutoRotation();
+                    
+                    // 设置点击的节点为活动节点
+                    setActiveNode(index);
+                    
+                    // 自动展开右侧解说面板
+                    if (!isRightPanelExpanded) {
+                        toggleRightPanel();
+                    }
+                    
+                    // 3秒后恢复自动旋转
+                    setTimeout(() => {
+                        if (!isAutoRotating) {
+                            startAutoRotation();
+                        }
+                    }, 3000);
+                });
+            });
+            
+            // 加速按钮
+            speedUpBtn.addEventListener('click', speedUp);
+            
+            // 减速按钮
+            speedDownBtn.addEventListener('click', speedDown);
+            
+            // 立即参与按钮
+            participateBtn.addEventListener('click', () => {
+                // 展开左侧控制面板（如果已折叠）
+                if (!isLeftPanelExpanded) {
+                    toggleLeftPanel();
+                }
+                
+                // 显示确认对话框
+                setTimeout(() => {
+                    if (confirm('即将跳转到参与页面...\n\n请注意：加密货币投资存在风险，请谨慎评估。\n\n确定要跳转到活动页面吗？')) {
+                        // 在实际应用中，这里应该跳转到实际参与页面
+                        // window.location.href = 'https://ima858588-boop.github.io';
+                        alert('跳转已模拟，实际链接: ima858588-boop.github.io');
+                    }
+                }, 300);
+            });
+            
+            // 模型解析按钮
+            analyzeBtn.addEventListener('click', () => {
+                // 展开左侧控制面板（如果已折叠）
+                if (!isLeftPanelExpanded) {
+                    toggleLeftPanel();
+                }
+                
+                // 展开右侧解说面板（如果已折叠）
+                if (!isRightPanelExpanded) {
+                    toggleRightPanel();
+                }
+                
+                explanationTitle.textContent = "模型深度解析";
+                explanationContent.textContent = "海豚生态采用创新的『正向收益飞轮』模型，将质押、奖励、治理和增值四个核心环节有机结合。用户质押USDT获得H代币奖励，H代币持有者享有治理权与额外收益，部分收益可复投形成循环。随着生态发展，H代币价值提升，吸引更多参与者，形成自我强化的增长飞轮。该模型通过智能合约自动执行，确保透明公平，旨在创建可持续的DeFi收益生态系统。\n\n核心优势：\n1. 自动化：智能合约自动执行，减少人为干预\n2. 复利效应：收益可再投资，实现指数增长\n3. 治理权：H代币持有者参与生态决策\n4. 透明度：所有操作链上可查，数据公开透明\n5. 可持续性：飞轮效应推动生态持续增长";
+                
+                // 暂停自动旋转5秒，让用户阅读解析
+                stopAutoRotation();
+                setTimeout(() => {
+                    if (!isAutoRotating) {
+                        startAutoRotation();
+                    }
+                }, 5000);
+            });
+            
+            // 进度标记点击事件
+            progressMarkers.forEach((marker, index) => {
+                marker.addEventListener('click', () => {
+                    // 停止自动旋转
+                    stopAutoRotation();
+                    
+                    // 设置点击的标记对应的节点为活动节点
+                    setActiveNode(index);
+                    
+                    // 自动展开右侧解说面板
+                    if (!isRightPanelExpanded) {
+                        toggleRightPanel();
+                    }
+                    
+                    // 3秒后恢复自动旋转
+                    setTimeout(() => {
+                        if (!isAutoRotating) {
+                            startAutoRotation();
+                        }
+                    }, 3000);
+                });
+            });
+            
+            // 初始化页面
+            initPage();
+            
+            // 添加淡入淡出动画
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translateY(-10px); }
+                    15% { opacity: 1; transform: translateY(0); }
+                    85% { opacity: 1; transform: translateY(0); }
+                    100% { opacity: 0; transform: translateY(-10px); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
 </body>
 </html>
