@@ -122,7 +122,7 @@
             flex-direction: column;
         }
 
-        /* 头部区域 */
+        /* 头部区域 - 优化版 */
         .poster-header {
             display: flex;
             justify-content: space-between;
@@ -225,34 +225,36 @@
         .partner-section {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+        }
+
+        .okx-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .okx-logo::after {
+            content: 'Wallet';
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-left: 5px;
         }
 
         .partner-title {
             font-size: 1rem;
             color: var(--text-secondary);
             font-weight: 500;
+            margin-left: 5px;
         }
 
-        .okx-logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-        }
-
-        .okx-logo::after {
-            content: 'Wallet';
-            font-size: 1.3rem;
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-
-        /* 左侧导航和控制面板 */
+        /* 左侧操作面板 */
         .left-panel {
             position: fixed;
             left: 0;
@@ -264,7 +266,7 @@
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        .nav-toggle {
+        .left-toggle {
             width: 60px;
             height: 60px;
             background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
@@ -281,7 +283,7 @@
             z-index: 101;
         }
 
-        .nav-toggle:hover {
+        .left-toggle:hover {
             transform: translateX(5px);
             box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
         }
@@ -302,10 +304,65 @@
         }
 
         .left-panel.expanded .control-panel {
-            width: 280px;
+            width: 260px;
             padding: 20px 15px;
         }
 
+        /* 右侧解说面板 */
+        .right-panel {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: row;
+            z-index: 100;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .right-toggle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--secondary-color), #c77dff);
+            border-radius: 15px 0 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(157, 78, 221, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            z-index: 101;
+        }
+
+        .right-toggle:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 8px 30px rgba(157, 78, 221, 0.6);
+        }
+
+        .explanation-panel {
+            width: 0;
+            overflow: hidden;
+            background: rgba(16, 23, 41, 0.95);
+            border-radius: 15px 0 0 15px;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+            border-left: 1px solid rgba(0, 212, 255, 0.3);
+            border-top: 1px solid rgba(0, 212, 255, 0.3);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .right-panel.expanded .explanation-panel {
+            width: 320px;
+            padding: 25px 20px;
+        }
+
+        /* 控制按钮样式 */
         .control-btn {
             padding: 14px 20px;
             margin: 8px 0;
@@ -385,6 +442,46 @@
             text-align: center;
         }
 
+        /* 解说内容样式 */
+        .explanation-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .explanation-header i {
+            font-size: 1.3rem;
+        }
+
+        .explanation-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .explanation-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .explanation-content::-webkit-scrollbar-track {
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .explanation-content::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
         /* 主内容区域 */
         .main-content {
             flex: 1;
@@ -393,45 +490,44 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            padding-left: 40px; /* 为左侧面板留出空间 */
             width: 100%;
             position: relative;
         }
 
-        /* 飞轮区域 */
+        /* 飞轮区域 - 缩小版 */
         .flywheel-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             width: 100%;
-            max-width: 1000px;
+            max-width: 800px;
             margin: 0 auto;
             flex: 1;
             position: relative;
         }
 
-        /* 飞轮容器 */
+        /* 飞轮容器 - 缩小 */
         .flywheel-container {
-            width: 700px;
-            height: 700px;
+            width: 500px;
+            height: 500px;
             position: relative;
-            margin: 0 auto;
+            margin: 0 auto 30px;
             opacity: 1;
             transition: opacity 1s ease;
         }
 
         @media (max-width: 900px) {
             .flywheel-container {
-                width: 550px;
-                height: 550px;
+                width: 450px;
+                height: 450px;
             }
         }
 
         @media (max-width: 650px) {
             .flywheel-container {
-                width: 400px;
-                height: 400px;
+                width: 380px;
+                height: 380px;
             }
         }
 
@@ -489,8 +585,8 @@
         /* 飞轮节点 */
         .flywheel-node {
             position: absolute;
-            width: 110px;
-            height: 110px;
+            width: 90px;
+            height: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -504,22 +600,22 @@
 
         @media (max-width: 900px) {
             .flywheel-node {
-                width: 90px;
-                height: 90px;
+                width: 75px;
+                height: 75px;
             }
         }
 
         @media (max-width: 650px) {
             .flywheel-node {
-                width: 70px;
-                height: 70px;
+                width: 65px;
+                height: 65px;
             }
         }
 
         @media (max-width: 480px) {
             .flywheel-node {
-                width: 60px;
-                height: 60px;
+                width: 55px;
+                height: 55px;
             }
         }
 
@@ -528,79 +624,79 @@
         }
 
         .node-icon {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             margin-bottom: 8px;
             background: rgba(16, 23, 41, 0.95);
             border: 2px solid var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.7);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
             transition: all 0.3s ease;
         }
 
         @media (max-width: 900px) {
             .node-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
             }
         }
 
         @media (max-width: 650px) {
             .node-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
             }
         }
 
         @media (max-width: 480px) {
             .node-icon {
-                width: 35px;
-                height: 35px;
-                font-size: 16px;
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
                 margin-bottom: 5px;
             }
         }
 
         .node-text {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             text-align: center;
             color: var(--text-color);
-            max-width: 110px;
+            max-width: 90px;
             line-height: 1.2;
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
             background: rgba(10, 14, 23, 0.8);
             padding: 5px 8px;
-            border-radius: 8px;
+            border-radius: 6px;
             border: 1px solid rgba(0, 212, 255, 0.3);
         }
 
         @media (max-width: 900px) {
             .node-text {
-                font-size: 0.85rem;
-                max-width: 90px;
+                font-size: 0.8rem;
+                max-width: 75px;
                 padding: 4px 6px;
             }
         }
 
         @media (max-width: 650px) {
             .node-text {
-                font-size: 0.75rem;
-                max-width: 70px;
+                font-size: 0.7rem;
+                max-width: 65px;
                 padding: 3px 5px;
             }
         }
 
         @media (max-width: 480px) {
             .node-text {
-                font-size: 0.65rem;
-                max-width: 60px;
+                font-size: 0.6rem;
+                max-width: 55px;
                 padding: 2px 4px;
             }
         }
@@ -608,13 +704,13 @@
         .flywheel-node.active .node-icon {
             background: var(--primary-color);
             color: var(--bg-dark);
-            box-shadow: 0 0 35px rgba(0, 212, 255, 1);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 1);
             animation: pulse 1.5s infinite alternate;
         }
 
         @keyframes pulse {
-            0% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.8); }
-            100% { box-shadow: 0 0 45px rgba(0, 212, 255, 1); }
+            0% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.8); }
+            100% { box-shadow: 0 0 40px rgba(0, 212, 255, 1); }
         }
 
         /* 连接线 */
@@ -644,11 +740,11 @@
             }
         }
 
-        /* 进度条区域 */
+        /* 进度条区域 - 更明显 */
         .progress-section {
             width: 100%;
-            max-width: 800px;
-            margin: 30px auto 20px;
+            max-width: 700px;
+            margin: 20px auto;
             z-index: 10;
         }
 
@@ -656,37 +752,39 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .progress-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            color: var(--primary-color);
-        }
-
-        .progress-percent {
-            font-family: 'Orbitron', sans-serif;
             font-size: 1.4rem;
-            font-weight: 700;
             color: var(--primary-color);
             text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
         }
 
+        .progress-percent {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+        }
+
         .progress-bar-container {
             width: 100%;
-            height: 18px;
+            height: 25px;
             background: rgba(16, 23, 41, 0.7);
-            border-radius: 9px;
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(0, 212, 255, 0.3);
+            border: 2px solid rgba(0, 212, 255, 0.4);
             position: relative;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
         }
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
-            border-radius: 9px;
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color), #00e5ff);
+            border-radius: 12px;
             width: 0%;
             transition: width 0.5s ease;
             position: relative;
@@ -700,7 +798,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             animation: progressShine 2s infinite linear;
         }
 
@@ -712,117 +810,55 @@
         .progress-markers {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
+            margin-top: 15px;
             padding: 0 5px;
         }
 
         .progress-marker {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             text-align: center;
-            width: 90px;
+            width: 80px;
             transition: all 0.3s ease;
             cursor: pointer;
+            padding: 3px 0;
+            border-radius: 4px;
+        }
+
+        .progress-marker:hover {
+            background: rgba(0, 212, 255, 0.1);
         }
 
         .progress-marker.active {
             color: var(--primary-color);
-            font-weight: 600;
+            font-weight: 700;
             text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
-        }
-
-        /* 解说框区域 */
-        .explanation-section {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto 20px;
-            z-index: 10;
-            height: 150px;
-            overflow: hidden;
-        }
-
-        .explanation-container {
-            width: 100%;
-            height: 100%;
-            background: rgba(16, 23, 41, 0.85);
-            border-radius: 12px;
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .explanation-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-        }
-
-        .explanation-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            color: var(--primary-color);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .explanation-title i {
-            font-size: 1.2rem;
-        }
-
-        .explanation-content {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: var(--text-color);
-            height: 70px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-
-        .explanation-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .explanation-content::-webkit-scrollbar-track {
-            background: rgba(0, 212, 255, 0.1);
-            border-radius: 3px;
-        }
-
-        .explanation-content::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 3px;
+            background: rgba(0, 212, 255, 0.15);
         }
 
         /* 响应式调整 */
         @media (max-width: 1100px) {
             .main-title {
-                font-size: 1.8rem;
+                font-size: 1.9rem;
             }
             
             .okx-logo {
-                font-size: 1.6rem;
+                font-size: 1.9rem;
             }
             
             .flywheel-container {
-                width: 600px;
-                height: 600px;
+                width: 450px;
+                height: 450px;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .poster-header {
                 padding: 12px 20px;
             }
             
             .main-title {
-                font-size: 1.6rem;
+                font-size: 1.7rem;
             }
             
             .logo-icon {
@@ -832,48 +868,45 @@
             }
             
             .subtitle {
-                font-size: 0.9rem;
+                font-size: 0.95rem;
             }
             
             .okx-logo {
-                font-size: 1.4rem;
+                font-size: 1.7rem;
             }
             
             .okx-logo::after {
-                font-size: 1.1rem;
+                font-size: 1.3rem;
             }
             
-            .left-panel {
-                top: 40%;
+            .partner-title {
+                font-size: 0.9rem;
             }
             
-            .nav-toggle {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
+            .left-toggle, .right-toggle {
+                width: 55px;
+                height: 55px;
+                font-size: 22px;
             }
             
             .left-panel.expanded .control-panel {
-                width: 230px;
-                padding: 15px 12px;
+                width: 240px;
+                padding: 18px 15px;
+            }
+            
+            .right-panel.expanded .explanation-panel {
+                width: 280px;
+                padding: 22px 18px;
             }
             
             .control-btn {
-                padding: 12px 15px;
+                padding: 12px 16px;
                 font-size: 1rem;
-                margin: 6px 0;
-            }
-            
-            .explanation-section {
-                height: 160px;
-            }
-            
-            .explanation-content {
-                height: 85px;
+                margin: 7px 0;
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             .poster-header {
                 flex-direction: column;
                 gap: 15px;
@@ -882,22 +915,78 @@
             }
             
             .main-title {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
             }
             
             .partner-section {
                 margin-top: 5px;
             }
             
-            .left-panel {
-                top: 35%;
+            .left-panel, .right-panel {
+                top: 40%;
             }
             
-            .nav-toggle {
+            .left-toggle, .right-toggle {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                border-radius: 0 10px 10px 0;
+            }
+            
+            .right-toggle {
+                border-radius: 10px 0 0 10px;
+            }
+            
+            .left-panel.expanded .control-panel {
+                width: 220px;
+                padding: 15px 12px;
+            }
+            
+            .right-panel.expanded .explanation-panel {
+                width: 250px;
+                padding: 20px 15px;
+            }
+            
+            .explanation-content {
+                height: 250px;
+            }
+            
+            .progress-bar-container {
+                height: 22px;
+            }
+            
+            .progress-percent {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.4rem;
+            }
+            
+            .logo-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+            
+            .okx-logo {
+                font-size: 1.5rem;
+            }
+            
+            .okx-logo::after {
+                font-size: 1.1rem;
+            }
+            
+            .partner-title {
+                font-size: 0.8rem;
+            }
+            
+            .left-toggle, .right-toggle {
                 width: 45px;
                 height: 45px;
                 font-size: 18px;
-                border-radius: 0 10px 10px 0;
             }
             
             .left-panel.expanded .control-panel {
@@ -905,44 +994,49 @@
                 padding: 12px 10px;
             }
             
+            .right-panel.expanded .explanation-panel {
+                width: 220px;
+                padding: 15px 12px;
+            }
+            
             .control-btn {
                 padding: 10px 12px;
                 font-size: 0.9rem;
-                margin: 5px 0;
-            }
-            
-            .explanation-section {
-                height: 170px;
+                margin: 6px 0;
             }
             
             .explanation-content {
-                height: 95px;
+                height: 220px;
                 font-size: 0.9rem;
             }
             
-            .main-content {
-                padding-left: 20px;
-                padding-right: 20px;
+            .progress-bar-container {
+                height: 20px;
+            }
+            
+            .progress-percent {
+                font-size: 1.5rem;
+            }
+            
+            .progress-marker {
+                font-size: 0.75rem;
+                width: 70px;
             }
         }
 
         @media (max-height: 800px) {
             .flywheel-container {
-                width: 550px;
-                height: 550px;
+                width: 450px;
+                height: 450px;
+                margin-bottom: 25px;
             }
             
             .progress-section {
-                margin: 20px auto 15px;
+                margin: 15px auto;
             }
             
-            .explanation-section {
-                height: 140px;
-                margin-bottom: 15px;
-            }
-            
-            .explanation-content {
-                height: 65px;
+            .left-panel, .right-panel {
+                top: 45%;
             }
         }
     </style>
@@ -971,17 +1065,17 @@
             </div>
             
             <div class="partner-section">
-                <div class="partner-title">联合打造</div>
                 <div class="okx-logo">
                     <span>OKX</span>
                 </div>
+                <div class="partner-title">联合打造</div>
             </div>
         </div>
 
-        <!-- 左侧导航和控制面板 -->
+        <!-- 左侧操作面板 -->
         <div class="left-panel" id="leftPanel">
-            <button class="nav-toggle" id="navToggle">
-                <i class="fas fa-bars"></i>
+            <button class="left-toggle" id="leftToggle">
+                <i class="fas fa-sliders-h"></i>
             </button>
             
             <div class="control-panel">
@@ -1004,6 +1098,23 @@
                     <i class="fas fa-chart-line"></i>
                     <span>模型解析</span>
                 </button>
+            </div>
+        </div>
+
+        <!-- 右侧解说面板 -->
+        <div class="right-panel" id="rightPanel">
+            <button class="right-toggle" id="rightToggle">
+                <i class="fas fa-info-circle"></i>
+            </button>
+            
+            <div class="explanation-panel">
+                <div class="explanation-header">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="explanationTitle">海豚生态飞轮解析</span>
+                </div>
+                <div class="explanation-content" id="explanationContent">
+                    点击飞轮上的任意节点或等待飞轮自动旋转，此处将显示该节点的详细说明。飞轮转动时，解说框会同步更新当前节点的信息，进度条也会相应前进。
+                </div>
             </div>
         </div>
 
@@ -1103,19 +1214,6 @@
                     <div class="progress-marker" data-index="7">飞轮效应</div>
                 </div>
             </div>
-
-            <!-- 解说框区域 -->
-            <div class="explanation-section">
-                <div class="explanation-container">
-                    <div class="explanation-title">
-                        <i class="fas fa-info-circle"></i>
-                        <span id="explanationTitle">海豚生态飞轮解析</span>
-                    </div>
-                    <div class="explanation-content" id="explanationContent">
-                        点击飞轮上的任意节点或等待飞轮自动旋转，此处将显示该节点的详细说明。飞轮转动时，解说框会同步更新当前节点的信息，进度条也会相应前进。
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -1123,7 +1221,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             // 获取DOM元素
             const leftPanel = document.getElementById('leftPanel');
-            const navToggle = document.getElementById('navToggle');
+            const leftToggle = document.getElementById('leftToggle');
+            const rightPanel = document.getElementById('rightPanel');
+            const rightToggle = document.getElementById('rightToggle');
             const flywheel = document.getElementById('flywheel');
             const progressBar = document.getElementById('progressBar');
             const progressPercent = document.getElementById('progressPercent');
@@ -1142,41 +1242,42 @@
             let totalNodes = 8; // 总节点数
             let isAutoRotating = true; // 是否自动旋转
             let autoRotateInterval; // 自动旋转的定时器
-            let isPanelExpanded = false; // 控制面板是否展开
+            let isLeftPanelExpanded = false; // 左侧面板是否展开
+            let isRightPanelExpanded = false; // 右侧面板是否展开
             
             // 节点数据
             const nodeData = [
                 {
                     title: "质押USDT",
-                    content: "用户将USDT存入海豚生态的智能合约中进行质押。这是启动正向收益飞轮的第一步，也是获得H代币奖励的基础。质押的USDT将进入流动性池，为整个生态系统提供价值支撑。"
+                    content: "用户将USDT存入海豚生态的智能合约中进行质押。这是启动正向收益飞轮的第一步，也是获得H代币奖励的基础。质押的USDT将进入流动性池，为整个生态系统提供价值支撑。质押过程简单安全，通过智能合约自动执行，确保资产安全。"
                 },
                 {
                     title: "获得H代币",
-                    content: "质押USDT后，系统将自动分配H代币奖励。H代币是海豚生态的核心治理与权益代币，持有者不仅享有收益分配权，还能参与生态治理决策，共同推动项目发展。"
+                    content: "质押USDT后，系统将自动分配H代币奖励。H代币是海豚生态的核心治理与权益代币，持有者不仅享有收益分配权，还能参与生态治理决策，共同推动项目发展。H代币总量有限，具有通缩机制，长期价值可期。"
                 },
                 {
                     title: "实时计算",
-                    content: "系统实时计算用户的质押奖励，基于质押量、时间和市场参数动态调整。采用智能算法确保奖励分配的公平性与透明度，所有计算数据均可在链上验证。"
+                    content: "系统实时计算用户的质押奖励，基于质押量、时间和市场参数动态调整。采用智能算法确保奖励分配的公平性与透明度，所有计算数据均可在链上验证。奖励计算采用复合算法，考虑质押时间、数量和流动性贡献度。"
                 },
                 {
                     title: "自动发放",
-                    content: "计算完成的H代币奖励将自动发放到用户的加密钱包中，无需手动申领。这一过程完全由智能合约自动执行，确保奖励发放的及时性和安全性，减少人为干预风险。"
+                    content: "计算完成的H代币奖励将自动发放到用户的加密钱包中，无需手动申领。这一过程完全由智能合约自动执行，确保奖励发放的及时性和安全性，减少人为干预风险。发放频率可根据用户设置调整。"
                 },
                 {
                     title: "查看余额",
-                    content: "用户可随时在钱包中查看H代币余额及收益明细。系统提供可视化的数据面板，清晰展示收益曲线、累计奖励和预估年化收益率，帮助用户全面了解收益状况。"
+                    content: "用户可随时在钱包中查看H代币余额及收益明细。系统提供可视化的数据面板，清晰展示收益曲线、累计奖励和预估年化收益率，帮助用户全面了解收益状况。支持多维度数据分析，提供投资决策参考。"
                 },
                 {
                     title: "了解权益",
-                    content: "深入了解H代币的各类权益，包括治理投票、收益倍增、空投优先权等。持有更多H代币将解锁更高级别的权益，享受生态发展的多重红利。"
+                    content: "深入了解H代币的各类权益，包括治理投票、收益倍增、空投优先权等。持有更多H代币将解锁更高级别的权益，享受生态发展的多重红利。权益体系设计旨在奖励长期持有者和生态贡献者。"
                 },
                 {
                     title: "正向循环",
-                    content: "获得的H代币可重新质押，形成收益复利效应。这一机制创造了正向循环，使早期参与者的收益随时间呈指数级增长，强化生态的长期价值捕获能力。"
+                    content: "获得的H代币可重新质押，形成收益复利效应。这一机制创造了正向循环，使早期参与者的收益随时间呈指数级增长，强化生态的长期价值捕获能力。复利效应是本模型的核心优势之一。"
                 },
                 {
                     title: "飞轮效应",
-                    content: "随着更多用户参与质押，生态流动性增强，H代币价值提升，进而吸引更多参与者，形成强大的飞轮效应。这一自我强化的正循环是海豚生态持续增长的核心动力。"
+                    content: "随着更多用户参与质押，生态流动性增强，H代币价值提升，进而吸引更多参与者，形成强大的飞轮效应。这一自我强化的正循环是海豚生态持续增长的核心动力，推动生态进入良性发展轨道。"
                 }
             ];
             
@@ -1328,22 +1429,38 @@
                 }, 2000);
             }
             
-            // 切换控制面板
-            function toggleControlPanel() {
-                isPanelExpanded = !isPanelExpanded;
+            // 切换左侧控制面板
+            function toggleLeftPanel() {
+                isLeftPanelExpanded = !isLeftPanelExpanded;
                 
-                if (isPanelExpanded) {
+                if (isLeftPanelExpanded) {
                     leftPanel.classList.add('expanded');
-                    navToggle.innerHTML = '<i class="fas fa-times"></i>';
+                    leftToggle.innerHTML = '<i class="fas fa-times"></i>';
                 } else {
                     leftPanel.classList.remove('expanded');
-                    navToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    leftToggle.innerHTML = '<i class="fas fa-sliders-h"></i>';
+                }
+            }
+            
+            // 切换右侧解说面板
+            function toggleRightPanel() {
+                isRightPanelExpanded = !isRightPanelExpanded;
+                
+                if (isRightPanelExpanded) {
+                    rightPanel.classList.add('expanded');
+                    rightToggle.innerHTML = '<i class="fas fa-times"></i>';
+                } else {
+                    rightPanel.classList.remove('expanded');
+                    rightToggle.innerHTML = '<i class="fas fa-info-circle"></i>';
                 }
             }
             
             // 事件监听器
-            // 导航按钮点击事件
-            navToggle.addEventListener('click', toggleControlPanel);
+            // 左侧导航按钮点击事件
+            leftToggle.addEventListener('click', toggleLeftPanel);
+            
+            // 右侧导航按钮点击事件
+            rightToggle.addEventListener('click', toggleRightPanel);
             
             // 节点点击事件
             flywheelNodes.forEach((node, index) => {
@@ -1353,6 +1470,11 @@
                     
                     // 设置点击的节点为活动节点
                     setActiveNode(index);
+                    
+                    // 自动展开右侧解说面板
+                    if (!isRightPanelExpanded) {
+                        toggleRightPanel();
+                    }
                     
                     // 3秒后恢复自动旋转
                     setTimeout(() => {
@@ -1371,9 +1493,9 @@
             
             // 立即参与按钮
             participateBtn.addEventListener('click', () => {
-                // 展开控制面板（如果已折叠）
-                if (!isPanelExpanded) {
-                    toggleControlPanel();
+                // 展开左侧控制面板（如果已折叠）
+                if (!isLeftPanelExpanded) {
+                    toggleLeftPanel();
                 }
                 
                 // 显示确认对话框
@@ -1388,13 +1510,18 @@
             
             // 模型解析按钮
             analyzeBtn.addEventListener('click', () => {
-                // 展开控制面板（如果已折叠）
-                if (!isPanelExpanded) {
-                    toggleControlPanel();
+                // 展开左侧控制面板（如果已折叠）
+                if (!isLeftPanelExpanded) {
+                    toggleLeftPanel();
+                }
+                
+                // 展开右侧解说面板（如果已折叠）
+                if (!isRightPanelExpanded) {
+                    toggleRightPanel();
                 }
                 
                 explanationTitle.textContent = "模型深度解析";
-                explanationContent.textContent = "海豚生态采用创新的『正向收益飞轮』模型，将质押、奖励、治理和增值四个核心环节有机结合。用户质押USDT获得H代币奖励，H代币持有者享有治理权与额外收益，部分收益可复投形成循环。随着生态发展，H代币价值提升，吸引更多参与者，形成自我强化的增长飞轮。该模型通过智能合约自动执行，确保透明公平，旨在创建可持续的DeFi收益生态系统。";
+                explanationContent.textContent = "海豚生态采用创新的『正向收益飞轮』模型，将质押、奖励、治理和增值四个核心环节有机结合。用户质押USDT获得H代币奖励，H代币持有者享有治理权与额外收益，部分收益可复投形成循环。随着生态发展，H代币价值提升，吸引更多参与者，形成自我强化的增长飞轮。该模型通过智能合约自动执行，确保透明公平，旨在创建可持续的DeFi收益生态系统。\n\n核心优势：\n1. 自动化：智能合约自动执行，减少人为干预\n2. 复利效应：收益可再投资，实现指数增长\n3. 治理权：H代币持有者参与生态决策\n4. 透明度：所有操作链上可查，数据公开透明\n5. 可持续性：飞轮效应推动生态持续增长";
                 
                 // 暂停自动旋转5秒，让用户阅读解析
                 stopAutoRotation();
@@ -1413,6 +1540,11 @@
                     
                     // 设置点击的标记对应的节点为活动节点
                     setActiveNode(index);
+                    
+                    // 自动展开右侧解说面板
+                    if (!isRightPanelExpanded) {
+                        toggleRightPanel();
+                    }
                     
                     // 3秒后恢复自动旋转
                     setTimeout(() => {
