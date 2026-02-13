@@ -6,6 +6,8 @@
   <title>海豚社区 · 经济模型 · 完整版</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+  .cards-container { gap: 28px; }
+  .card-header { padding: 24px 24px 20px 24px; }
     :root {
       --primary: #0066ff;
       --primary-light: rgba(0, 102, 255, 0.12);
@@ -1228,6 +1230,116 @@
       if(inp.value.trim()) alert('留言已提交: ' + inp.value);
       else alert('请输入内容');
     });
+    /* ===== 优化后样式（请追加在现有style末尾） ===== */
+
+/* 扩大卡片容器间距 */
+.cards-container {
+  gap: 28px;
+}
+
+/* 卡片内部留白微调 */
+.card-header {
+  padding: 24px 24px 20px 24px;
+}
+.content-inner {
+  padding: 0 28px 12px 28px;
+}
+.activity-card.active .content-inner {
+  padding-bottom: 28px;
+}
+
+/* 用户数据区 - 科技感字体 */
+.data-value {
+  font-size: 1.8rem;            /* 稍大突出 */
+  font-weight: 800;
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+  background: linear-gradient(145deg, #0066ff, #00c6ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px rgba(0,102,255,0.3);
+  line-height: 1.2;
+}
+.data-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* 卡片小标题 - 精致纤细 */
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Inter', -apple-system, sans-serif;
+  letter-spacing: 0.02em;
+  color: #0066ff;
+  margin-bottom: 16px;
+  position: relative;
+  padding-bottom: 6px;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: rgba(0,102,255,0.2);
+  border-radius: 2px;
+}
+
+/* 卡片主标题 - 更舒展 */
+.card-text h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+.card-text p {
+  font-size: 0.9rem;
+  color: #777;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+/* 普通说明文字 - 增加呼吸感 */
+.description,
+.rules-list li,
+.reward-item,
+.wallet-balance-row {
+  line-height: 1.6;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* 状态标签 - 更轻盈 */
+.status-badge {
+  padding: 8px 16px;
+  border-width: 2px;             /* 边框减细 */
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(2px);    /* 轻微模糊背景 */
+  background: rgba(255,255,255,0.3);
+}
+
+/* 数据卡片 - 极浅内阴影，增强层次 */
+.data-card {
+  box-shadow: inset 0 1px 4px rgba(255,255,255,0.8), 0 4px 10px rgba(0,0,0,0.02);
+  border-color: rgba(0,102,255,0.1);
+}
+
+/* 增强数字/货币等信息的可读性 */
+.wallet-balance-row strong,
+.stat-number,
+.reward-value {
+  font-weight: 700;
+  color: #0066ff;
+  font-family: 'SF Mono', monospace;
+}
   </script>
 </body>
 </html>
