@@ -1,656 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>H 代币 · 经济模型全景白皮书</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(145deg, #f6f9fc 0%, #e9f2f9 100%);
-            font-family: 'Inter', 'Segoe UI', Roboto, system-ui, sans-serif;
-            padding: 2rem 1.5rem;
-            color: #1a2b3e;
-            line-height: 1.5;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* 标题区 */
-        .hero {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #0b2b5c, #1b4a8b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.02em;
-            display: inline-block;
-            padding: 0 1rem;
-        }
-
-        .hero .sub {
-            font-size: 1.2rem;
-            color: #2c3e6d;
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(4px);
-            display: inline-block;
-            padding: 0.5rem 2rem;
-            border-radius: 40px;
-            margin-top: 0.5rem;
-            border: 1px solid rgba(27,74,139,0.15);
-            box-shadow: 0 4px 10px rgba(0,20,40,0.05);
-        }
-
-        /* 网格卡片 */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.8rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .card {
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
-            padding: 1.8rem 1.5rem;
-            border: 1px solid rgba(255,255,255,0.6);
-            box-shadow: 0 20px 35px -10px rgba(0,30,60,0.15), 0 0 0 1px rgba(27,74,139,0.1) inset;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 28px 40px -12px rgba(0,40,80,0.25);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            border-bottom: 2px solid rgba(27,74,139,0.2);
-            padding-bottom: 1rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .card-header span {
-            font-size: 2rem;
-            background: #1b4a8b;
-            color: white;
-            width: 48px;
-            height: 48px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 20px;
-            box-shadow: 0 8px 14px -6px #1b4a8b80;
-        }
-
-        .card-header h2 {
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: #0a2647;
-        }
-
-        .stat-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            font-size: 1.05rem;
-            border-bottom: 1px dashed rgba(0,0,0,0.1);
-            padding-bottom: 0.4rem;
-        }
-
-        .stat-label {
-            color: #2d4a72;
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-weight: 700;
-            background: #ffffffc0;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            color: #00337c;
-            border: 1px solid #bbcbe0;
-        }
-
-        .highlight {
-            background: linear-gradient(145deg, #eef5ff, #ffffff);
-            border-left: 6px solid #1b4a8b;
-            padding: 1rem 1.4rem;
-            border-radius: 24px;
-            font-weight: 500;
-            margin: 1.2rem 0 0;
-            box-shadow: 0 6px 14px rgba(0,30,60,0.08);
-        }
-
-        .formula {
-            font-family: 'JetBrains Mono', monospace;
-            background: #0e1f33;
-            color: #c7e0ff;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            font-size: 0.95rem;
-        }
-
-        /* 计算器区域 */
-        .calculator {
-            background: white;
-            border-radius: 42px;
-            padding: 2.5rem 2rem;
-            box-shadow: 0 30px 45px -20px #0a2647;
-            border: 1px solid rgba(27,74,139,0.3);
-            margin: 3rem 0 2rem;
-        }
-
-        .calc-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #1b4a8b;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .calc-title::before {
-            content: "⚡";
-            font-size: 2.2rem;
-        }
-
-        .param-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .param-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-        }
-
-        .param-item label {
-            font-weight: 600;
-            color: #1e3b63;
-            font-size: 0.95rem;
-            letter-spacing: 0.3px;
-        }
-
-        .param-item input {
-            padding: 0.8rem 1rem;
-            border: 2px solid #cdddec;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 500;
-            background: #f3f8ff;
-            transition: 0.15s;
-            outline: none;
-        }
-
-        .param-item input:focus {
-            border-color: #1b4a8b;
-            box-shadow: 0 0 0 4px #a3c3e9;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-            align-items: center;
-            margin-top: 0.5rem;
-        }
-
-        .btn {
-            background: #1b4a8b;
-            border: none;
-            color: white;
-            font-weight: 600;
-            font-size: 1.2rem;
-            padding: 1rem 2.8rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: 0.15s;
-            box-shadow: 0 10px 20px -5px #1b4a8b;
-            border: 1px solid #ffffff50;
-            letter-spacing: 0.5px;
-        }
-
-        .btn:hover {
-            background: #0f3a6b;
-            transform: scale(1.02);
-            box-shadow: 0 18px 25px -8px #0f3a6b;
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #1b4a8b;
-            box-shadow: 0 0 0 2px #1b4a8b inset;
-            border: none;
-        }
-
-        .btn-outline:hover {
-            background: #e2edff;
-            box-shadow: 0 0 0 2px #1b4a8b inset;
-            transform: scale(1.02);
-        }
-
-        /* 表格 */
-        .table-wrapper {
-            overflow-x: auto;
-            margin-top: 2.5rem;
-            border-radius: 30px;
-            background: #ffffffd0;
-            backdrop-filter: blur(4px);
-            padding: 0.5rem;
-            border: 1px solid #cdddec;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-            min-width: 700px;
-        }
-
-        th {
-            background: #1b4a8b;
-            color: white;
-            padding: 1rem 0.8rem;
-            font-weight: 600;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
-
-        td {
-            padding: 0.8rem 0.8rem;
-            text-align: center;
-            border-bottom: 1px solid #cfdeef;
-            font-weight: 500;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        td:first-child, th:first-child {
-            border-radius: 20px 0 0 20px;
-        }
-        td:last-child, th:last-child {
-            border-radius: 0 20px 20px 0;
-        }
-
-        .note {
-            background: #e9f2fa;
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            border-left: 10px solid #1b4a8b;
-        }
-
-        .footnote {
-            color: #2b496e;
-            font-size: 0.95rem;
-            text-align: center;
-            margin-top: 2rem;
-            opacity: 0.8;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 钱包 - VIP汇源</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="hero">
-            <h1>H 经济模型 · 通证蓝图</h1>
-            <div class="sub">⚡ 社区驱动 | 通缩回购 | 质押飞轮 ⚡</div>
-        </div>
+        <header>
+            <h1>🔐 Web3 钱包应用</h1>
+            <p class="subtitle">连接您的以太坊钱包</p>
+        </header>
 
-        <!-- 核心数据卡片 -->
-        <div class="grid">
-            <div class="card">
-                <div class="card-header">
-                    <span>📊</span>
-                    <h2>总供应 & 初始池</h2>
+        <main>
+            <div class="card" id="connectionCard">
+                <h2>钱包连接</h2>
+                <div id="notConnected" class="section">
+                    <p class="info-text">请连接您的 MetaMask 钱包以开始使用</p>
+                    <button id="connectButton" class="btn btn-primary">
+                        <span class="btn-icon">🦊</span>
+                        连接 MetaMask
+                    </button>
+                    <p class="help-text">没有 MetaMask? <a href="https://metamask.io/download/" target="_blank">点击这里下载</a></p>
                 </div>
-                <div class="stat-list">
-                    <div class="stat-item"><span class="stat-label">总发行量</span><span class="stat-value">10,000,000,000 H</span></div>
-                    <div class="stat-item"><span class="stat-label">初始流动性</span><span class="stat-value">10,000 USDT + 2亿 H</span></div>
-                    <div class="stat-item"><span class="stat-label">初始价格</span><span class="stat-value">$0.00005</span></div>
-                    <div class="stat-item"><span class="stat-label">交易税费</span><span class="stat-value">买卖各 5%</span></div>
-                </div>
-                <div class="highlight">社区占比 80% · 8亿 H 用于激励</div>
-            </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <span>🔒</span>
-                    <h2>私募阶段 (第一节)</h2>
+                <div id="connected" class="section hidden">
+                    <div class="status-badge success">
+                        <span class="status-icon">✓</span>
+                        已连接
+                    </div>
+                    <div class="wallet-info">
+                        <div class="info-row">
+                            <span class="label">账户地址:</span>
+                            <span id="accountAddress" class="value address"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">余额:</span>
+                            <span id="accountBalance" class="value balance"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">网络:</span>
+                            <span id="networkName" class="value"></span>
+                        </div>
+                    </div>
+                    <button id="disconnectButton" class="btn btn-secondary">断开连接</button>
                 </div>
-                <div class="stat-list">
-                    <div class="stat-item"><span class="stat-label">募集目标</span><span class="stat-value">100,000 USDT</span></div>
-                    <div class="stat-item"><span class="stat-label">日收益率</span><span class="stat-value">0.5%~1.2% (H奖励)</span></div>
-                    <div class="stat-item"><span class="stat-label">募集后价格</span><span class="stat-value">≈ $0.009</span></div>
-                    <div class="stat-item"><span class="stat-label">社区比例</span><span class="stat-value">98%</span></div>
-                </div>
-                <div class="highlight">3亿 H 划拨至质押池 · 私募买入 1.82亿 H (项目方护盘)</div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span>⚙️</span>
-                    <h2>质押 & 飞轮</h2>
-                </div>
-                <div class="stat-list">
-                    <div class="stat-item"><span class="stat-label">质押H</span><span class="stat-value">得 H 收益</span></div>
-                    <div class="stat-item"><span class="stat-label">Boost 空投</span><span class="stat-value">交易量≥500U 享磨损补贴</span></div>
-                    <div class="stat-item"><span class="stat-label">国库收入</span><span class="stat-value">交易额 5.34%</span></div>
-                </div>
-                <div class="highlight">非质押所得H交易，不享受补贴</div>
-            </div>
-        </div>
-
-        <!-- 国库与返佣 -->
-        <div class="grid">
-            <div class="card">
-                <div class="card-header">
-                    <span>🏦</span>
-                    <h2>国库机制 (第三节)</h2>
-                </div>
-                <div class="stat-list">
-                    <div class="stat-item"><span class="stat-label">交易税5%</span><span class="stat-value">全部归国库</span></div>
-                    <div class="stat-item"><span class="stat-label">返佣0.85%×40%</span><span class="stat-value">=0.34%交易额</span></div>
-                    <div class="stat-item"><span class="stat-label">总国库流入</span><span class="stat-value">5.34% 交易额</span></div>
-                </div>
-                <div class="highlight">用于：补贴、分红、回购、护盘</div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <span>📈</span>
-                    <h2>动态平衡</h2>
-                </div>
-                <div class="stat-list">
-                    <div class="stat-item"><span class="stat-label">回购</span><span class="stat-value">↑U_LP, ↑价格</span></div>
-                    <div class="stat-item"><span class="stat-label">卖出(质押奖励)</span><span class="stat-value">↓U_LP, ↓价格</span></div>
-                </div>
-                <div class="formula" style="margin-top:0.8rem;">净效应 = 回购金额 - 卖出导致的U_LP减少</div>
-            </div>
-        </div>
-
-        <!-- 交互式计算器 -->
-        <div class="calculator">
-            <div class="calc-title">模拟计算器 · 推演价格走向</div>
-            <div class="param-grid">
-                <div class="param-item">
-                    <label>🏁 初始U_LP (USDT)</label>
-                    <input type="number" id="initU" value="10000" step="1000">
-                </div>
-                <div class="param-item">
-                    <label>🔹 初始H_LP (H)</label>
-                    <input type="number" id="initH" value="200000000" step="1000000">
-                </div>
-                <div class="param-item">
-                    <label>💰 私募金额 (USDT)</label>
-                    <input type="number" id="privateAmount" value="100000" step="5000">
-                </div>
-                <div class="param-item">
-                    <label>📊 每日交易额 V (USDT)</label>
-                    <input type="number" id="dailyV" value="1000000" step="100000">
-                </div>
-                <div class="param-item">
-                    <label>⛓️ 每日质押释放 H_reward</label>
-                    <input type="number" id="rewardH" value="100000" step="10000">
-                </div>
-                <div class="param-item">
-                    <label>📅 私募日收益率 (如0.0085)</label>
-                    <input type="number" id="privateYield" value="0.0085" step="0.001" min="0" max="0.02">
-                </div>
-                <div class="param-item">
-                    <label>🧾 私募质押总额 (USDT)</label>
-                    <input type="number" id="privateStaked" value="100000" step="1000">
-                </div>
-                <div class="param-item">
-                    <label>📤 卖出比例 (0-1)</label>
-                    <input type="number" id="sellRatio" value="1" step="0.1" min="0" max="1">
-                </div>
-                <div class="param-item">
-                    <label>🔄 回购比例 (0-1)</label>
-                    <input type="number" id="buybackRatio" value="1" step="0.1" min="0" max="1">
-                </div>
-                <div class="param-item">
-                    <label>📆 模拟天数</label>
-                    <input type="number" id="days" value="8" min="1" max="20">
-                </div>
-            </div>
-            <div class="button-group">
-                <button class="btn" id="calcBtn">🚀 运行模拟</button>
-                <button class="btn-outline btn" id="resetDefault">↺ 重置默认</button>
             </div>
 
-            <!-- 结果表格 -->
-            <div class="table-wrapper" id="resultTable">
-                <table>
-                    <thead>
-                        <tr><th>天数</th><th>价格 (USDT)</th><th>U_LP</th><th>H_LP</th><th>国库累计</th><th>私募释放(H)</th></tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <tr><td colspan="6" style="text-align:center; padding:2rem;">点击「运行模拟」生成数据</td></tr>
-                    </tbody>
-                </table>
+            <div class="card" id="transactionCard">
+                <h2>发送交易</h2>
+                <div id="transactionForm" class="section hidden">
+                    <form id="sendForm">
+                        <div class="form-group">
+                            <label for="recipientAddress">接收地址:</label>
+                            <input 
+                                type="text" 
+                                id="recipientAddress" 
+                                placeholder="0x..."
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">金额 (ETH):</label>
+                            <input 
+                                type="number" 
+                                id="amount" 
+                                placeholder="0.01"
+                                step="0.001"
+                                min="0"
+                                required
+                            >
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-icon">💸</span>
+                            发送交易
+                        </button>
+                    </form>
+                    <div id="transactionStatus" class="transaction-status hidden"></div>
+                </div>
             </div>
 
-            <div class="note">
-                <strong>📌 模拟逻辑说明</strong><br>
-                • 第0天为私募后状态：U_LP += 私募金额，H_LP = k / 新U_LP，价格 = U_LP²/k<br>
-                • 每日国库收入 R = 交易额 × 5.34%<br>
-                • 卖出：质押释放 + 私募释放 (私募释放 = 私募总额×日收益率 / 前一日价格)<br>
-                • 卖出使U_temp = k / (H + 0.95×卖出量) ; 回购使U_new = U_temp + 0.95×R×回购比例<br>
-                • 价格、H_LP同步更新。默认全部卖出/回购 (比例=1)。 
+            <div class="card" id="featuresCard">
+                <h2>功能特性</h2>
+                <ul class="features-list">
+                    <li>
+                        <span class="feature-icon">🔗</span>
+                        <div>
+                            <strong>钱包连接</strong>
+                            <p>安全连接到 MetaMask 钱包</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">💰</span>
+                        <div>
+                            <strong>余额查询</strong>
+                            <p>实时查看您的 ETH 余额</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">📤</span>
+                        <div>
+                            <strong>发送交易</strong>
+                            <p>向任何地址发送以太坊</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">🌐</span>
+                        <div>
+                            <strong>多网络支持</strong>
+                            <p>支持主网和测试网</p>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        </div>
+        </main>
 
-        <!-- 额外分析 -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
-            <div class="card" style="background: #ffffffd0;">
-                <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">📉 平衡条件</h3>
-                <p>当每日回购金额 <br> <code class="formula" style="display: inline-block;">R * 回购比例</code> <br> 等于卖出导致的U_LP减少量时，价格稳定。</p>
-                <p style="margin-top:1rem;">若交易额足够大，回购力量 > 抛压，价格进入正向螺旋。</p>
-            </div>
-            <div class="card" style="background: #ffffffd0;">
-                <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">💎 社区护盾</h3>
-                <p>• 仅质押所得H交易享磨损补贴<br>• 欧易返佣0.34%交易额注入国库<br>• 项目方持1.82亿H(私募买入)用于护盘</p>
-            </div>
-        </div>
-
-        <div class="footnote">
-            ⚡ H 经济模型 · 所有数据模拟仅供参考 · 实际以市场为准 ⚡
-        </div>
+        <footer>
+            <p>© 2026 VIP汇源 Web3 钱包应用 | 安全 • 简单 • 可靠</p>
+        </footer>
     </div>
 
-    <script>
-        (function() {
-            // 获取DOM元素
-            const initUInp = document.getElementById('initU');
-            const initHInp = document.getElementById('initH');
-            const privateAmtInp = document.getElementById('privateAmount');
-            const dailyVInp = document.getElementById('dailyV');
-            const rewardHInp = document.getElementById('rewardH');
-            const yieldInp = document.getElementById('privateYield');
-            const privateStakedInp = document.getElementById('privateStaked');
-            const sellRatioInp = document.getElementById('sellRatio');
-            const bbRatioInp = document.getElementById('buybackRatio');
-            const daysInp = document.getElementById('days');
-            const calcBtn = document.getElementById('calcBtn');
-            const resetBtn = document.getElementById('resetDefault');
-            const tbody = document.getElementById('tableBody');
-
-            // 税费常数
-            const TAX = 0.05;            // 5% 交易税
-            const NET_RATIO = 1 - TAX;    // 0.95
-            const TREASURY_RATE = 0.0534; // 5% + 0.34%
-
-            // 重置默认值
-            resetBtn.addEventListener('click', () => {
-                initUInp.value = '10000';
-                initHInp.value = '200000000';
-                privateAmtInp.value = '100000';
-                dailyVInp.value = '1000000';
-                rewardHInp.value = '100000';
-                yieldInp.value = '0.0085';
-                privateStakedInp.value = '100000';
-                sellRatioInp.value = '1';
-                bbRatioInp.value = '1';
-                daysInp.value = '8';
-                // 可选触发计算
-                runSimulation();
-            });
-
-            // 计算主函数
-            function runSimulation() {
-                // 读取输入
-                let U0 = parseFloat(initUInp.value);
-                let H0 = parseFloat(initHInp.value);
-                let privateUSDT = parseFloat(privateAmtInp.value);
-                let dailyV = parseFloat(dailyVInp.value);
-                let dailyRewardH = parseFloat(rewardHInp.value);
-                let privateYield = parseFloat(yieldInp.value);
-                let privateStaked = parseFloat(privateStakedInp.value); // 私募质押U总额
-                let sellRatio = parseFloat(sellRatioInp.value);
-                let bbRatio = parseFloat(bbRatioInp.value);
-                let days = parseInt(daysInp.value, 10);
-
-                if (isNaN(U0) || U0<=0 || isNaN(H0) || H0<=0 || isNaN(privateUSDT) || privateUSDT<0 ||
-                    isNaN(dailyV) || dailyV<0 || isNaN(dailyRewardH) || dailyRewardH<0 || isNaN(privateYield) ||
-                    isNaN(privateStaked) || privateStaked<0 || isNaN(sellRatio) || sellRatio<0 || sellRatio>1 ||
-                    isNaN(bbRatio) || bbRatio<0 || bbRatio>1 || isNaN(days) || days<1) {
-                    alert('请填写有效的正数，比例在0~1之间');
-                    return;
-                }
-
-                // 计算恒定乘积 k
-                let k = U0 * H0;  // 初始k
-
-                // 第0天：私募后
-                let U_private = U0 + privateUSDT;
-                let H_private = k / U_private;   // 新的H_LP
-                let price0 = U_private / H_private;
-
-                // 准备迭代数组
-                let daysArr = [];
-                // 第0条记录
-                let record0 = {
-                    day: 0,
-                    price: price0,
-                    U: U_private,
-                    H: H_private,
-                    treasury: 0,
-                    privateRelease: 0,
-                };
-                daysArr.push(record0);
-
-                let currentU = U_private;
-                let currentH = H_private;
-                let currentPrice = price0;
-                let treasuryAcc = 0;  // 国库累计(只是累计收入, 用于展示)
-
-                // 迭代天数 1..days
-                for (let d = 1; d <= days; d++) {
-                    // 1. 国库收入 R (基于当日设定的交易额)
-                    let R = dailyV * TREASURY_RATE;  // USDT
-                    treasuryAcc += R;
-
-                    // 2. 私募释放 (用前一日价格)
-                    let privateReleaseH = (privateStaked * privateYield) / currentPrice;   // 得到H数量
-                    if (isNaN(privateReleaseH) || !isFinite(privateReleaseH)) privateReleaseH = 0;
-
-                    // 3. 总卖出H
-                    let totalSellH = (dailyRewardH + privateReleaseH) * sellRatio;
-
-                    // 4. 卖出对LP的影响 (先卖)
-                    // H_temp = H + 0.95 * totalSellH ; U_temp = k / H_temp
-                    let H_temp = currentH + NET_RATIO * totalSellH;
-                    let U_temp = k / H_temp;   // 卖出后U减少
-
-                    // 5. 回购 (国库支出R * bbRatio, 实际买入金额扣除税费)
-                    let buybackUSDT = R * bbRatio;   // 从国库支出的总金额
-                    let actualBuyU = buybackUSDT * NET_RATIO;  // 扣除5%税费后实际进入LP的U
-                    // 回购后U_new = U_temp + actualBuyU
-                    let U_new = U_temp + actualBuyU;
-                    let H_new = k / U_new;
-
-                    // 6. 更新价格
-                    let newPrice = U_new / H_new;
-
-                    // 保存记录
-                    daysArr.push({
-                        day: d,
-                        price: newPrice,
-                        U: U_new,
-                        H: H_new,
-                        treasury: treasuryAcc,
-                        privateRelease: privateReleaseH,
-                    });
-
-                    // 更新下一轮
-                    currentU = U_new;
-                    currentH = H_new;
-                    currentPrice = newPrice;
-                }
-
-                // 渲染表格
-                renderTable(daysArr);
-            }
-
-            function renderTable(data) {
-                let html = '';
-                for (let i = 0; i < data.length; i++) {
-                    let r = data[i];
-                    // 格式化
-                    let priceStr = r.price.toFixed(6);
-                    let uStr = r.U.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                    let hStr = r.H.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                    let treasuryStr = r.treasury.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                    let privateStr = r.privateRelease.toFixed(0);
-                    html += `<tr>
-                        <td><strong>${r.day}</strong></td>
-                        <td>$${priceStr}</td>
-                        <td>${uStr}</td>
-                        <td>${hStr}</td>
-                        <td>${treasuryStr} USDT</td>
-                        <td>${privateStr} H</td>
-                    </tr>`;
-                }
-                tbody.innerHTML = html;
-            }
-
-            // 绑定计算
-            calcBtn.addEventListener('click', runSimulation);
-
-            // 页面加载自动运行一次默认值
-            window.addEventListener('load', () => {
-                runSimulation();
-            });
-        })();
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
