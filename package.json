@@ -1,0 +1,28 @@
+{
+  "name": "viphuiyuan",
+  "version": "1.0.0",
+  "description": "Web3 wallet application with OKX DEX integration",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:okx": "hardhat run scripts/deploy.js --network okx",
+    "deploy:okx_testnet": "hardhat run scripts/deploy.js --network okx_testnet"
+  },
+  "keywords": [
+    "web3",
+    "wallet",
+    "okx",
+    "dex"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.3",
+    "@openzeppelin/hardhat-upgrades": "^1.28.0",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.17.2"
+  }
+}
