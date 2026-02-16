@@ -1,0 +1,202 @@
+name: Auto apply workflow fix and open PR
+
+on:
+  workflow_dispatch:
+
+jobs:
+  apply-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create fixed verify.yml
+        run: |
+          mkdir -p .github/workflows
+          cat > .github/workflows/verify.yml <<'YAML'
+          name: Smart Contract CI/CD
+
+          # This workflow demonstrates automated testing, deployment, and verification
+          # of smart contracts on OKX Chain testnet and mainnet
+
+          # Required Repository Secrets:
+          # - DEPLOYER_PRIVATE_KEY: Private key for contract deployment
+          # - OKX_EXPLORER_API_KEY: API key for contract verification on OKX explorer
+
+          on:
+            push:
+              branches:
+                - main
+            pull_request:
+              branches:
+                - main
+            release:
+              types: [created]
+            workflow_dispatch:
+              inputs:
+                deploy:
+                  description: 'Deploy to testnet'
+                  required: false
+                  type: boolean
+                  default: false
+
+          jobs:
+            test:
+              name: Run Tests
+              runs-on: ubuntu-latest
+
+              steps:
+                - name: Checkout code
+                  uses: actions/checkout@v3
+
+                - name: Set up Node.js
+                  uses: actions/setup-node@v4
+                  with:
+                    node-version: '18'
+
+                - name: Install dependencies
+                  run: |
+                    if [ -f package-lock.json ]; then
+                      npm ci
+                    else
+                      npm install
+                    fi
+
+                - name: Compile contracts
+                  run: npm run compile
+
+                - name: Run tests
+                  run: npm test
+
+            deploy-testnet:
+              name: Deploy to OKX Testnet
+              runs-on: ubuntu-latest
+              needs: test
+              if: github.event.inputs.deploy == 'true' || github.event_name == 'workflow_dispatch'
+
+              steps:
+                - name: Checkout code
+                  uses: actions/checkout@v3
+
+                - name: Set up Node.js
+                  uses: actions/setup-node@v4
+                  with:
+                    node-version: '18'
+
+                - name: Install dependencies
+                  run: |
+                    if [ -f package-lock.json ]; then
+                      npm ci
+                    else
+                      npm install
+                    fi
+
+                - name: Deploy to OKX Testnet
+                  env:
+                    DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
+                    OKX_TESTNET_RPC_URL: https://exchaintestrpc.okex.org
+                    OKX_ROUTER_ADDRESS: "0x5C7c3c269629E8aFB9A2E5fefb0e3d477b8Cf82C"
+                  run: |
+                    npm run deploy:okx_testnet 2>&1 | tee deployed-addresses.txt
+
+                - name: Auto-verify contracts (optional)
+                  if: ${{ secrets.OKX_EXPLORER_API_KEY != '' }}
+                  continue-on-error: true
+                  env:
+                    OKX_EXPLORER_API_KEY: ${{ secrets.OKX_EXPLORER_API_KEY }}
+                  run: |
+                    set -e
+                    ADDR_FILE=deployed-addresses.txt
+                    if [ -f "$ADDR_FILE" ]; then
+                      grep -oE '0x[a-fA-F0-9]{40}' "$ADDR_FILE" | sort -u > addresses.txt || true
+                    elif [ -d "deployments" ]; then
+                      grep -rhoE '0x[a-fA-F0-9]{40}' deployments | sort -u > addresses.txt || true
+                    fi
+
+                    if [ -f addresses.txt ]; then
+                      echo "Found addresses:"
+                      cat addresses.txt
+                      while read -r addr; do
+                        echo "Verifying $addr"
+                        npx hardhat verify --network okx_testnet "$addr" || true
+                      done < addresses.txt
+                    else
+                      echo "No addresses found for verification, skipping."
+                    fi
+
+            deploy-mainnet:
+              name: Deploy to OKX Mainnet
+              runs-on: ubuntu-latest
+              needs: test
+              if: github.event_name == 'release'
+
+              steps:
+                - name: Checkout code
+                  uses: actions/checkout@v3
+
+                - name: Set up Node.js
+                  uses: actions/setup-node@v4
+                  with:
+                    node-version: '18'
+
+                - name: Install dependencies
+                  run: |
+                    if [ -f package-lock.json ]; then
+                      npm ci
+                    else
+                      npm install
+                    fi
+
+                - name: Deploy to OKX Mainnet
+                  env:
+                    DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
+                    OKX_RPC_URL: https://exchainrpc.okex.org
+                    OKX_ROUTER_ADDRESS: "0x5C7c3c269629E8aFB9A2E5fefb0e3d477b8Cf82C"
+                  run: |
+                    npm run deploy:okx 2>&1 | tee deployed-addresses-mainnet.txt
+
+                - name: Auto-verify contracts on mainnet (optional)
+                  if: ${{ secrets.OKX_EXPLORER_API_KEY != '' }}
+                  continue-on-error: true
+                  env:
+                    OKX_EXPLORER_API_KEY: ${{ secrets.OKX_EXPLORER_API_KEY }}
+                  run: |
+                    set -e
+                    ADDR_FILE=deployed-addresses-mainnet.txt
+                    if [ -f "$ADDR_FILE" ]; then
+                      grep -oE '0x[a-fA-F0-9]{40}' "$ADDR_FILE" | sort -u > addresses.txt || true
+                    elif [ -d "deployments" ]; then
+                      grep -rhoE '0x[a-fA-F0-9]{40}' deployments | sort -u > addresses.txt || true
+                    fi
+
+                    if [ -f addresses.txt ]; then
+                      echo "Found addresses:"
+                      cat addresses.txt
+                      while read -r addr; do
+                        echo "Verifying $addr"
+                        npx hardhat verify --network okx "$addr" || true
+                      done < addresses.txt
+                    else
+                      echo "No addresses found for verification, skipping."
+                    fi
+          YAML
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/verify.yml
+          git commit -m "fix(workflow): normalize YAML and add automated verification steps" || echo "No changes to commit"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.BOT_PUSH_TOKEN }}
+          commit-message: "fix(workflow): normalize YAML and add automated verification steps"
+          title: "fix(workflow): normalize YAML and add automated verification steps"
+          body: |
+            This PR normalizes the workflow YAML (node 18), captures deploy output to extract addresses,
+            and attempts automated contract verification using npx hardhat verify when OKX_EXPLORER_API_KEY is present.
+            Verification is non-blocking to avoid failing deployments.
+          base: main
+          branch: copilot/fix-ci
