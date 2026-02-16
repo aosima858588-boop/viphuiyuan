@@ -24,6 +24,8 @@ contract ExampleERC20 is ERC20 {
 
     /**
      * @notice Mint tokens (for testing purposes)
+     * @dev WARNING: This function has no access control and is intended for testing only.
+     *      In production, add appropriate access control (e.g., onlyOwner modifier).
      * @param to Recipient address
      * @param amount Amount to mint
      */

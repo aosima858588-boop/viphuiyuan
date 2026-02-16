@@ -8,6 +8,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// Configuration
+const EXPECTED_SOLIDITY_VERSION = '0.8.20';
+
 const checks = [
   { name: 'package.json', path: './package.json', type: 'file' },
   { name: 'hardhat.config.js', path: './hardhat.config.js', type: 'file' },
@@ -55,7 +58,7 @@ contracts.forEach(contractPath => {
   
   // Basic checks
   const hasSpdx = content.includes('SPDX-License-Identifier');
-  const hasPragma = content.includes('pragma solidity 0.8.20');
+  const hasPragma = content.includes(`pragma solidity ${EXPECTED_SOLIDITY_VERSION}`);
   const hasContract = content.includes('contract ');
   
   if (hasSpdx && hasPragma && hasContract) {

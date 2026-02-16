@@ -102,11 +102,13 @@ describe("FeeRouterAdapter", function () {
   });
 
   describe("Fee Distribution", function () {
-    it("Should take fee from swap amount", async function () {
+    it("Should distribute fees correctly when taking fee", async function () {
       const swapAmount = ethers.utils.parseEther("100");
+      const expectedFee = swapAmount.mul(100).div(10000); // 1% of 100 = 1 ETH
       
-      // Mint tokens to user
+      // Mint tokens to user and adapter (adapter needs tokens to act as router output)
       await token.mint(user.address, swapAmount);
+      await token.mint(mockRouter.address, swapAmount.mul(2)); // Router has enough for swap
       
       // Approve adapter
       await token.connect(user).approve(adapter.address, swapAmount);
@@ -116,23 +118,56 @@ describe("FeeRouterAdapter", function () {
       const initialBurn = await token.balanceOf(burn.address);
       const initialRewards = await token.balanceOf(rewards.address);
       
-      // Perform swap (will fail on router call but should still take fee)
+      // Perform swap (should succeed with MockRouter)
       const path = [token.address, token.address];
-      try {
-        await adapter.connect(user).swapExactTokensForTokensWithFee(
-          swapAmount,
-          0,
-          path,
-          user.address,
-          Math.floor(Date.now() / 1000) + 3600
-        );
-      } catch (e) {
-        // Expected to fail on mock router, but fee should be taken
-      }
+      await adapter.connect(user).swapExactTokensForTokensWithFee(
+        swapAmount,
+        0,
+        path,
+        user.address,
+        Math.floor(Date.now() / 1000) + 3600
+      );
       
-      // Check that user balance decreased
-      const userBalance = await token.balanceOf(user.address);
-      expect(userBalance).to.be.lt(swapAmount);
+      // Calculate expected fee distribution based on splits
+      const expectedOps = expectedFee.mul(3333).div(10000);
+      const expectedBurn = expectedFee.mul(3333).div(10000);
+      const expectedRewards = expectedFee.sub(expectedOps).sub(expectedBurn);
+      
+      // Check fee distribution
+      const finalOps = await token.balanceOf(ops.address);
+      const finalBurn = await token.balanceOf(burn.address);
+      const finalRewards = await token.balanceOf(rewards.address);
+      
+      expect(finalOps.sub(initialOps)).to.equal(expectedOps);
+      expect(finalBurn.sub(initialBurn)).to.equal(expectedBurn);
+      expect(finalRewards.sub(initialRewards)).to.equal(expectedRewards);
+    });
+
+    it("Should take correct fee amount from swap", async function () {
+      const swapAmount = ethers.utils.parseEther("100");
+      
+      // Mint tokens to user
+      await token.mint(user.address, swapAmount);
+      await token.mint(mockRouter.address, swapAmount.mul(2));
+      
+      // Approve adapter
+      await token.connect(user).approve(adapter.address, swapAmount);
+      
+      // Get initial user balance
+      const initialUserBalance = await token.balanceOf(user.address);
+      
+      // Perform swap
+      const path = [token.address, token.address];
+      await adapter.connect(user).swapExactTokensForTokensWithFee(
+        swapAmount,
+        0,
+        path,
+        user.address,
+        Math.floor(Date.now() / 1000) + 3600
+      );
+      
+      // User should have transferred the full amount
+      expect(await token.balanceOf(user.address)).to.be.gt(initialUserBalance.sub(swapAmount));
     });
   });
 
