@@ -23,6 +23,7 @@
     "@openzeppelin/contracts": "^4.9.3",
     "@openzeppelin/contracts-upgradeable": "^4.9.3",
     "@openzeppelin/hardhat-upgrades": "^1.28.0",
+    "chai": "^4.3.7",
     "ethers": "^5.7.2",
     "hardhat": "^2.17.2"
   }
