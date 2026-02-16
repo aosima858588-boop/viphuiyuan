@@ -1,0 +1,117 @@
+name: Smart Contract CI/CD
+
+# This workflow demonstrates automated testing, deployment, and verification
+# of smart contracts on OKX Chain testnet and mainnet
+
+# Required Repository Secrets:
+# - DEPLOYER_PRIVATE_KEY: Private key for contract deployment
+# - OKX_EXPLORER_API_KEY: API key for contract verification on OKX explorer
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  release:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Deploy to testnet'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Compile contracts
+        run: npm run compile
+
+      - name: Run tests
+        run: npm test
+
+  deploy-testnet:
+    name: Deploy to OKX Testnet
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event.inputs.deploy == 'true' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to OKX Testnet
+        env:
+          DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
+          OKX_TESTNET_RPC_URL: https://exchaintestrpc.okex.org
+          OKX_ROUTER_ADDRESS: "0x5C7c3c269629E8aFB9A2E5fefb0e3d477b8Cf82C"
+        run: npm run deploy:okx_testnet
+
+      - name: Verify contracts (optional)
+        continue-on-error: true
+        env:
+          OKX_EXPLORER_API_KEY: ${{ secrets.OKX_EXPLORER_API_KEY }}
+        run: |
+          echo "Contract verification requires manual step with deployed addresses"
+          echo "Use: npx hardhat verify --network okx_testnet <CONTRACT_ADDRESS>"
+
+  deploy-mainnet:
+    name: Deploy to OKX Mainnet
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'release'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to OKX Mainnet
+        env:
+          DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
+          OKX_RPC_URL: https://exchainrpc.okex.org
+          OKX_ROUTER_ADDRESS: "0x5C7c3c269629E8aFB9A2E5fefb0e3d477b8Cf82C"
+        run: npm run deploy:okx
+
+      - name: Verify contracts (optional)
+        continue-on-error: true
+        env:
+          OKX_EXPLORER_API_KEY: ${{ secrets.OKX_EXPLORER_API_KEY }}
+        run: |
+          echo "Contract verification requires manual step with deployed addresses"
+          echo "Use: npx hardhat verify --network okx <CONTRACT_ADDRESS>"

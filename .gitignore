@@ -25,3 +25,8 @@ build/
 tmp/
 temp/
 *.tmp
+
+# Hardhat
+cache/
+artifacts/
+typechain-types/

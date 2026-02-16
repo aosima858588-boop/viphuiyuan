@@ -71,11 +71,21 @@
 
 ```
 viphuiyuan/
-├── index.html      # 主 HTML 文件
-├── styles.css      # 样式表
-├── app.js          # 应用逻辑
-├── .gitignore      # Git 忽略配置
-└── README.md       # 项目说明
+├── index.html                    # 主 HTML 文件
+├── styles.css                    # 样式表
+├── app.js                        # 应用逻辑
+├── contracts/                    # 智能合约
+│   ├── FeeRouterAdapter.sol     # 费用路由适配器
+│   ├── ExampleERC20.sol         # 示例 ERC20 代币
+│   └── MockRouter.sol           # 测试用模拟路由
+├── scripts/                      # 部署脚本
+│   └── deploy.js                # 合约部署脚本
+├── test/                         # 测试文件
+│   └── test_fee_adapter.js      # FeeRouterAdapter 测试
+├── hardhat.config.js            # Hardhat 配置
+├── package.json                 # 项目依赖
+├── .gitignore                   # Git 忽略配置
+└── README.md                    # 项目说明
 ```
 
 ## 🌐 支持的网络
@@ -85,7 +95,37 @@ viphuiyuan/
 - Sepolia 测试网 (Chain ID: 0xaa36a7)
 - Polygon 主网 (Chain ID: 0x89)
 - BSC 主网 (Chain ID: 0x38)
+- **OKX Chain 主网 (Chain ID: 0x42 / 66)**
+- **OKX Chain 测试网 (Chain ID: 0x41 / 65)**
 - 其他兼容 EVM 的网络
+
+### OKX Chain 网络配置
+
+#### OKX Chain 主网
+- **Chain ID**: 66 (0x42)
+- **RPC URL**: https://exchainrpc.okex.org
+- **浏览器**: https://www.oklink.com/okc
+- **货币符号**: OKT
+
+#### OKX Chain 测试网
+- **Chain ID**: 65 (0x41)
+- **RPC URL**: https://exchaintestrpc.okex.org
+- **浏览器**: https://www.oklink.com/okc-test
+- **货币符号**: OKT
+- **水龙头**: [OKX Testnet Faucet](https://www.oklink.com/okc-test/faucet)
+
+### OKX DEX 参考地址
+
+#### Router 地址
+- **主网/测试网**: `0x5C7c3c269629E8aFB9A2E5fefb0e3d477b8Cf82C` (建议地址)
+
+#### Factory 地址
+- **主网/测试网**: 可通过 Router 合约查询或参考 [OKX 官方文档](https://www.okx.com/okc/docs)
+
+### 相关链接
+- [OKX Chain 官方文档](https://www.okx.com/okc/docs)
+- [OKX Chain 区块浏览器](https://www.oklink.com/okc)
+- [OKX DEX 文档](https://www.okx.com/okc/docs/dev/quick-start/introduction)
 
 ## 🎨 界面预览
 
@@ -102,6 +142,136 @@ viphuiyuan/
 - [ ] 添加 NFT 展示
 - [ ] 实现多语言支持
 - [ ] 添加 Web3Modal 支持更多钱包
+
+---
+
+## 🔧 智能合约开发与部署
+
+本项目包含基于 Hardhat 的智能合约开发环境，支持 OKX Chain 的合约部署和验证。
+
+### 前置要求
+
+- Node.js 16+ 和 npm
+- 用于部署的钱包私钥
+- OKX Chain 测试网或主网的 OKT（用于 gas 费用）
+
+### 安装依赖
+
+```bash
+npm install
+```
+
+### 编译合约
+
+```bash
+npm run compile
+# 或
+npx hardhat compile
+```
+
+### 运行测试
+
+```bash
+npm test
+# 或
+npx hardhat test
+```
+
+### 部署合约
+
+#### 环境变量配置
+
+在项目根目录创建 `.env` 文件并添加以下变量（可以从 `.env.example` 复制模板）：
+
+```bash
+# 复制模板文件
+cp .env.example .env
+
+# 然后编辑 .env 文件填入你的实际值
+```
+
+`.env` 文件内容：
+
+```bash
+# 部署钱包私钥（请勿提交到 Git）
+DEPLOYER_PRIVATE_KEY=your_private_key_here
+
+# OKX Chain RPC URLs (可选，有默认值)
+OKX_RPC_URL=https://exchainrpc.okex.org
+OKX_TESTNET_RPC_URL=https://exchaintestrpc.okex.org
+
+# OKX 浏览器 API Key (用于合约验证)
+OKX_EXPLORER_API_KEY=your_api_key_here
+
+# Router 地址 (可选，有默认值)
+OKX_ROUTER_ADDRESS=0x5C7c3c269629E8aFB9A2E5fefb0e3d477b8Cf82C
+```
+
+⚠️ **安全提示**: 
+- 永远不要将 `.env` 文件或私钥提交到 Git
+- 使用测试钱包进行开发和测试
+- 确保 `.env` 已添加到 `.gitignore`
+
+#### 部署到 OKX Chain 测试网
+
+```bash
+npm run deploy:okx_testnet
+# 或
+npx hardhat run scripts/deploy.js --network okx_testnet
+```
+
+#### 部署到 OKX Chain 主网
+
+```bash
+npm run deploy:okx
+# 或
+npx hardhat run scripts/deploy.js --network okx
+```
+
+### 验证合约
+
+部署后，使用以下命令在 OKX 浏览器上验证合约：
+
+```bash
+# 验证 ExampleERC20
+npx hardhat verify --network okx_testnet <TOKEN_ADDRESS> "Example Token" "EXMPL" "1000000000000000000000000"
+
+# 验证 FeeRouterAdapter 实现合约
+npx hardhat verify --network okx_testnet <IMPLEMENTATION_ADDRESS>
+```
+
+### FeeRouterAdapter 合约说明
+
+`FeeRouterAdapter` 是一个 UUPS 可升级的适配器合约，用于包装 UniswapV2 风格的路由器并收取交易费用。
+
+**主要功能**:
+- ✅ 从交易中按基点（basis points）收取费用
+- ✅ 将费用分配给运营、销毁和奖励地址
+- ✅ UUPS 可升级模式
+- ✅ 暂停/恢复功能
+- ✅ 所有者可配置费用和分配比例
+
+**合约参数**:
+- `feeBps`: 费用基点（1 bps = 0.01%，最大 1000 bps = 10%）
+- `opsSplit`, `burnSplit`, `rewardsSplit`: 费用分配比例（总和必须为 10000）
+- Recipients: 费用接收地址（ops, burn, rewards）
+
+### GitHub Actions CI/CD
+
+项目包含 GitHub Actions 工作流配置，支持：
+- ✅ 自动编译和测试合约
+- ✅ 自动部署到测试网（通过 workflow_dispatch）
+- ✅ 发布时自动部署到主网
+
+#### 配置 GitHub Secrets
+
+在 GitHub 仓库设置中添加以下 Secrets：
+1. `DEPLOYER_PRIVATE_KEY`: 部署钱包的私钥
+2. `OKX_EXPLORER_API_KEY`: OKX 浏览器 API 密钥（用于验证）
+
+### 获取 OKX 测试网 OKT
+
+访问 [OKX 测试网水龙头](https://www.oklink.com/okc-test/faucet) 获取测试网 OKT。
 
 ## 🤝 贡献
 
