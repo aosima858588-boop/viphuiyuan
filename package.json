@@ -6,7 +6,8 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "deploy:okx": "hardhat run scripts/deploy.js --network okx",
-    "deploy:okx_testnet": "hardhat run scripts/deploy.js --network okx_testnet"
+    "deploy:okx_testnet": "hardhat run scripts/deploy.js --network okx_testnet",
+    "validate": "node scripts/validate.js"
   },
   "keywords": [
     "web3",
