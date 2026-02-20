@@ -71,11 +71,14 @@
 
 ```
 viphuiyuan/
-├── index.html      # 主 HTML 文件
-├── styles.css      # 样式表
-├── app.js          # 应用逻辑
-├── .gitignore      # Git 忽略配置
-└── README.md       # 项目说明
+├── index.html           # 主 HTML 文件
+├── styles.css           # 样式表
+├── app.js               # 应用逻辑
+├── .gitignore           # Git 忽略配置
+├── LICENSE              # 许可证文件
+├── .github/             # GitHub 配置（如 copilot-instructions.md）
+├── custom-instructions/ # Copilot 自定义指令
+└── README.md            # 项目说明
 ```
 
 ## 🌐 支持的网络
